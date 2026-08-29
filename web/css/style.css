@@ -2563,3 +2563,218 @@ input {
     }
 
 }
+
+
+
+
+/* =========================================================
+   INVOICE MANAGEMENT
+========================================================= */
+
+.invoice-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.invoice-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 18px;
+    border: 1px solid #e8ebf0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.invoice-summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.invoice-summary-icon.revenue {
+    background-color: #edf4ff;
+    color: #2563eb;
+}
+
+.invoice-summary-icon.paid {
+    background-color: #eaf8ef;
+    color: #17994b;
+}
+
+.invoice-summary-icon.pending {
+    background-color: #fff6e6;
+    color: #d98b00;
+}
+
+.invoice-summary-icon.overdue {
+    background-color: #fff1f2;
+    color: #e5484d;
+}
+
+.invoice-summary-card p {
+    margin-bottom: 4px;
+    font-size: 10px;
+    color: #87909f;
+}
+
+.invoice-summary-card h2 {
+    font-size: 19px;
+    color: #263041;
+}
+
+
+/* =========================================================
+   INVOICE STATUS
+========================================================= */
+
+.invoice-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 58px;
+    padding: 5px 8px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.invoice-status.paid {
+    background-color: #eaf8ef;
+    color: #17994b;
+}
+
+.invoice-status.pending {
+    background-color: #fff6e6;
+    color: #d98b00;
+}
+
+.invoice-status.overdue {
+    background-color: #fff1f2;
+    color: #e5484d;
+}
+
+
+/* =========================================================
+   INVOICE ACTIONS
+========================================================= */
+
+.invoice-action {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.invoice-action.view {
+    background-color: #edf4ff;
+    color: #2563eb;
+}
+
+.invoice-action:hover {
+    background-color: #e2edff;
+}
+
+
+/* =========================================================
+   INVOICE FORM
+========================================================= */
+
+#generate-invoice-form {
+    padding: 22px;
+}
+
+#generate-invoice-form select {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #d7dce5;
+    border-radius: 5px;
+    outline: none;
+    background-color: #ffffff;
+    color: #374151;
+}
+
+#generate-invoice-form select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* =========================================================
+   INVOICE VIEW
+========================================================= */
+
+.invoice-view-card {
+    max-width: 520px;
+}
+
+.invoice-view-content {
+    padding: 8px 22px 22px;
+}
+
+.invoice-detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid #eef1f4;
+}
+
+.invoice-detail-row:last-child {
+    border-bottom: none;
+}
+
+.invoice-detail-row span {
+    font-size: 11px;
+    color: #8992a1;
+}
+
+.invoice-detail-row strong {
+    text-align: right;
+    font-size: 11px;
+    color: #374151;
+}
+
+
+/* =========================================================
+   INVOICE RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .invoice-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    .invoice-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invoice-detail-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .invoice-detail-row strong {
+        text-align: left;
+    }
+
+}

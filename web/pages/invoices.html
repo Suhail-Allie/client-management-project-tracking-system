@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Invoices | Web App Solutions</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="sidebar-link">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="clients.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a href="projects.html" class="sidebar-link">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a href="milestones.html" class="sidebar-link">
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a href="documents.html" class="sidebar-link">
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a href="invoices.html" class="sidebar-link active">
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a href="reports.html" class="sidebar-link">
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a href="notifications.html" class="sidebar-link">
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a href="users.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a href="profile.html" class="sidebar-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a href="../index.html" class="logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- INVOICE CONTENT -->
+            <section class="dashboard-content">
+
+                <div class="page-heading-row">
+
+                    <div>
+                        <h1>Invoice & Payment Management</h1>
+
+                        <p>
+                            Track invoices and payments
+                        </p>
+                    </div>
+
+                    <button
+                        class="primary-action-button"
+                        id="open-invoice-modal"
+                        type="button"
+                    >
+                        + Generate Invoice
+                    </button>
+
+                </div>
+
+
+                <!-- FINANCIAL SUMMARY -->
+                <section class="invoice-summary-grid">
+
+                    <article class="invoice-summary-card">
+
+                        <div class="invoice-summary-icon revenue">
+                            R
+                        </div>
+
+                        <div>
+                            <p>Total Revenue</p>
+                            <h2>R54,400</h2>
+                        </div>
+
+                    </article>
+
+
+                    <article class="invoice-summary-card">
+
+                        <div class="invoice-summary-icon paid">
+                            ✓
+                        </div>
+
+                        <div>
+                            <p>Paid</p>
+                            <h2>R15,000</h2>
+                        </div>
+
+                    </article>
+
+
+                    <article class="invoice-summary-card">
+
+                        <div class="invoice-summary-icon pending">
+                            ⏱
+                        </div>
+
+                        <div>
+                            <p>Pending</p>
+                            <h2>R20,700</h2>
+                        </div>
+
+                    </article>
+
+
+                    <article class="invoice-summary-card">
+
+                        <div class="invoice-summary-icon overdue">
+                            !
+                        </div>
+
+                        <div>
+                            <p>Overdue</p>
+                            <h2>R18,700</h2>
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- INVOICE TABLE -->
+                <section class="management-panel invoice-management-panel">
+
+                    <div class="management-toolbar">
+
+                        <div class="management-search">
+
+                            <input
+                                type="search"
+                                id="invoice-search"
+                                placeholder="Search invoices..."
+                                aria-label="Search invoices"
+                            >
+
+                        </div>
+
+                        <select
+                            id="invoice-status-filter"
+                            class="management-filter"
+                        >
+
+                            <option value="all">
+                                All Status
+                            </option>
+
+                            <option value="paid">
+                                Paid
+                            </option>
+
+                            <option value="pending">
+                                Pending
+                            </option>
+
+                            <option value="overdue">
+                                Overdue
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Client</th>
+                                    <th>Project</th>
+                                    <th>Amount</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="invoice-table-body">
+
+                                <tr data-status="paid">
+
+                                    <td>INV-1001</td>
+
+                                    <td>
+                                        TechCorp Inc.
+                                    </td>
+
+                                    <td>
+                                        E-commerce Platform
+                                    </td>
+
+                                    <td>
+                                        R15,000
+                                    </td>
+
+                                    <td>
+                                        2026-07-15
+                                    </td>
+
+                                    <td>
+                                        2026-07-30
+                                    </td>
+
+                                    <td>
+                                        <span class="invoice-status paid">
+                                            Paid
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="invoice-action view"
+                                            type="button"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr data-status="pending">
+
+                                    <td>INV-1002</td>
+
+                                    <td>
+                                        Digital Solutions Ltd.
+                                    </td>
+
+                                    <td>
+                                        Mobile App Development
+                                    </td>
+
+                                    <td>
+                                        R12,500
+                                    </td>
+
+                                    <td>
+                                        2026-08-01
+                                    </td>
+
+                                    <td>
+                                        2026-08-31
+                                    </td>
+
+                                    <td>
+                                        <span class="invoice-status pending">
+                                            Pending
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="invoice-action view"
+                                            type="button"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr data-status="overdue">
+
+                                    <td>INV-1003</td>
+
+                                    <td>
+                                        Innovatech Labs
+                                    </td>
+
+                                    <td>
+                                        CRM System
+                                    </td>
+
+                                    <td>
+                                        R18,700
+                                    </td>
+
+                                    <td>
+                                        2026-07-01
+                                    </td>
+
+                                    <td>
+                                        2026-08-01
+                                    </td>
+
+                                    <td>
+                                        <span class="invoice-status overdue">
+                                            Overdue
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="invoice-action view"
+                                            type="button"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr data-status="pending">
+
+                                    <td>INV-1004</td>
+
+                                    <td>
+                                        StartupHub
+                                    </td>
+
+                                    <td>
+                                        Website Redesign
+                                    </td>
+
+                                    <td>
+                                        R8,200
+                                    </td>
+
+                                    <td>
+                                        2026-08-20
+                                    </td>
+
+                                    <td>
+                                        2026-09-20
+                                    </td>
+
+                                    <td>
+                                        <span class="invoice-status pending">
+                                            Pending
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="invoice-action view"
+                                            type="button"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <p
+                            class="empty-table-message"
+                            id="invoice-empty-message"
+                        >
+                            No invoices found.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- GENERATE INVOICE MODAL -->
+    <div
+        class="modal-overlay"
+        id="invoice-modal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="invoice-modal-title"
+        >
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2 id="invoice-modal-title">
+                        Generate Invoice
+                    </h2>
+
+                    <p>
+                        Enter the invoice information.
+                    </p>
+
+                </div>
+
+                <button
+                    class="modal-close"
+                    id="close-invoice-modal"
+                    type="button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="generate-invoice-form">
+
+                <div class="modal-form-grid">
+
+                    <div class="form-group">
+
+                        <label for="invoice-client">
+                            Client
+                        </label>
+
+                        <select
+                            id="invoice-client"
+                            required
+                        >
+
+                            <option value="">
+                                Select client
+                            </option>
+
+                            <option>
+                                TechCorp Inc.
+                            </option>
+
+                            <option>
+                                Digital Solutions Ltd.
+                            </option>
+
+                            <option>
+                                Innovatech Labs
+                            </option>
+
+                            <option>
+                                StartupHub
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="invoice-project">
+                            Project
+                        </label>
+
+                        <select
+                            id="invoice-project"
+                            required
+                        >
+
+                            <option value="">
+                                Select project
+                            </option>
+
+                            <option>
+                                E-commerce Platform
+                            </option>
+
+                            <option>
+                                Mobile App Development
+                            </option>
+
+                            <option>
+                                CRM System
+                            </option>
+
+                            <option>
+                                Website Redesign
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="invoice-amount">
+                            Amount (R)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="invoice-amount"
+                            min="1"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="invoice-issue-date">
+                            Issue Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="invoice-issue-date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="invoice-due-date">
+                            Due Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="invoice-due-date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="invoice-status">
+                            Status
+                        </label>
+
+                        <select id="invoice-status">
+
+                            <option value="pending">
+                                Pending
+                            </option>
+
+                            <option value="paid">
+                                Paid
+                            </option>
+
+                            <option value="overdue">
+                                Overdue
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        class="secondary-button"
+                        id="cancel-invoice-modal"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-action-button"
+                        type="submit"
+                    >
+                        Generate Invoice
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- INVOICE VIEW MODAL -->
+    <div
+        class="modal-overlay"
+        id="invoice-view-modal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal-card invoice-view-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Invoice Details</h2>
+
+                    <p>
+                        Invoice information and payment status.
+                    </p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    id="close-invoice-view-modal"
+                    type="button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="invoice-view-content">
+
+                <div class="invoice-detail-row">
+                    <span>Invoice ID</span>
+                    <strong id="view-invoice-id">-</strong>
+                </div>
+
+                <div class="invoice-detail-row">
+                    <span>Client</span>
+                    <strong id="view-invoice-client">-</strong>
+                </div>
+
+                <div class="invoice-detail-row">
+                    <span>Project</span>
+                    <strong id="view-invoice-project">-</strong>
+                </div>
+
+                <div class="invoice-detail-row">
+                    <span>Amount</span>
+                    <strong id="view-invoice-amount">-</strong>
+                </div>
+
+                <div class="invoice-detail-row">
+                    <span>Issue Date</span>
+                    <strong id="view-invoice-issue">-</strong>
+                </div>
+
+                <div class="invoice-detail-row">
+                    <span>Due Date</span>
+                    <strong id="view-invoice-due">-</strong>
+                </div>
+
+                <div class="invoice-detail-row">
+                    <span>Status</span>
+                    <strong id="view-invoice-status">-</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>

@@ -2328,3 +2328,455 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+
+
+
+/* =========================================================
+   INVOICE SEARCH AND FILTER
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const searchInput =
+        document.getElementById("invoice-search");
+
+    const statusFilter =
+        document.getElementById("invoice-status-filter");
+
+    const tableBody =
+        document.getElementById("invoice-table-body");
+
+    const emptyMessage =
+        document.getElementById("invoice-empty-message");
+
+
+    if (!searchInput || !statusFilter || !tableBody) {
+        return;
+    }
+
+
+    function filterInvoices() {
+
+        const searchValue =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        const selectedStatus =
+            statusFilter.value;
+
+
+        const rows =
+            tableBody.querySelectorAll("tr");
+
+
+        let visibleRows = 0;
+
+
+        rows.forEach((row) => {
+
+            const rowText =
+                row.textContent.toLowerCase();
+
+
+            const rowStatus =
+                row.dataset.status;
+
+
+            const matchesSearch =
+                rowText.includes(searchValue);
+
+
+            const matchesStatus =
+                selectedStatus === "all" ||
+                selectedStatus === rowStatus;
+
+
+            if (matchesSearch && matchesStatus) {
+
+                row.style.display = "";
+
+                visibleRows++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        if (emptyMessage) {
+
+            emptyMessage.style.display =
+                visibleRows === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterInvoices
+    );
+
+
+    statusFilter.addEventListener(
+        "change",
+        filterInvoices
+    );
+
+});
+
+
+
+
+/* =========================================================
+   GENERATE INVOICE
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal =
+        document.getElementById("invoice-modal");
+
+    const openButton =
+        document.getElementById("open-invoice-modal");
+
+    const closeButton =
+        document.getElementById("close-invoice-modal");
+
+    const cancelButton =
+        document.getElementById("cancel-invoice-modal");
+
+    const form =
+        document.getElementById("generate-invoice-form");
+
+    const tableBody =
+        document.getElementById("invoice-table-body");
+
+
+    if (!modal || !openButton || !form || !tableBody) {
+        return;
+    }
+
+
+    function openInvoiceModal() {
+
+        modal.classList.add("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+
+
+    function closeInvoiceModal() {
+
+        modal.classList.remove("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        form.reset();
+
+    }
+
+
+    openButton.addEventListener(
+        "click",
+        openInvoiceModal
+    );
+
+
+    closeButton.addEventListener(
+        "click",
+        closeInvoiceModal
+    );
+
+
+    cancelButton.addEventListener(
+        "click",
+        closeInvoiceModal
+    );
+
+
+    modal.addEventListener(
+        "click",
+        (event) => {
+
+            if (event.target === modal) {
+                closeInvoiceModal();
+            }
+
+        }
+    );
+
+
+    form.addEventListener(
+        "submit",
+        (event) => {
+
+            event.preventDefault();
+
+
+            const client =
+                document
+                    .getElementById("invoice-client")
+                    .value;
+
+
+            const project =
+                document
+                    .getElementById("invoice-project")
+                    .value;
+
+
+            const amount =
+                Number(
+                    document
+                        .getElementById("invoice-amount")
+                        .value
+                );
+
+
+            const issueDate =
+                document
+                    .getElementById("invoice-issue-date")
+                    .value;
+
+
+            const dueDate =
+                document
+                    .getElementById("invoice-due-date")
+                    .value;
+
+
+            const status =
+                document
+                    .getElementById("invoice-status")
+                    .value;
+
+
+            const rowCount =
+                tableBody.querySelectorAll("tr").length;
+
+
+            const invoiceId =
+                `INV-${1001 + rowCount}`;
+
+
+            let statusLabel =
+                "Pending";
+
+
+            if (status === "paid") {
+                statusLabel = "Paid";
+            }
+
+
+            if (status === "overdue") {
+                statusLabel = "Overdue";
+            }
+
+
+            const formattedAmount =
+                Number(amount).toLocaleString(
+                    "en-ZA",
+                    {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
+                    }
+                );
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.dataset.status =
+                status;
+
+
+            row.innerHTML = `
+                <td>${invoiceId}</td>
+
+                <td>${client}</td>
+
+                <td>${project}</td>
+
+                <td>R${formattedAmount}</td>
+
+                <td>${issueDate}</td>
+
+                <td>${dueDate}</td>
+
+                <td>
+                    <span class="invoice-status ${status}">
+                        ${statusLabel}
+                    </span>
+                </td>
+
+                <td>
+                    <button
+                        class="invoice-action view"
+                        type="button"
+                    >
+                        View
+                    </button>
+                </td>
+            `;
+
+
+            tableBody.appendChild(row);
+
+
+            closeInvoiceModal();
+
+        }
+    );
+
+});
+
+
+
+
+
+/* =========================================================
+   VIEW INVOICE DETAILS
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const tableBody =
+        document.getElementById("invoice-table-body");
+
+    const modal =
+        document.getElementById("invoice-view-modal");
+
+    const closeButton =
+        document.getElementById("close-invoice-view-modal");
+
+
+    if (!tableBody || !modal || !closeButton) {
+        return;
+    }
+
+
+    tableBody.addEventListener(
+        "click",
+        (event) => {
+
+            const viewButton =
+                event.target.closest(
+                    ".invoice-action.view"
+                );
+
+
+            if (!viewButton) {
+                return;
+            }
+
+
+            const row =
+                viewButton.closest("tr");
+
+
+            const cells =
+                row.querySelectorAll("td");
+
+
+            document.getElementById(
+                "view-invoice-id"
+            ).textContent =
+                cells[0].textContent.trim();
+
+
+            document.getElementById(
+                "view-invoice-client"
+            ).textContent =
+                cells[1].textContent.trim();
+
+
+            document.getElementById(
+                "view-invoice-project"
+            ).textContent =
+                cells[2].textContent.trim();
+
+
+            document.getElementById(
+                "view-invoice-amount"
+            ).textContent =
+                cells[3].textContent.trim();
+
+
+            document.getElementById(
+                "view-invoice-issue"
+            ).textContent =
+                cells[4].textContent.trim();
+
+
+            document.getElementById(
+                "view-invoice-due"
+            ).textContent =
+                cells[5].textContent.trim();
+
+
+            document.getElementById(
+                "view-invoice-status"
+            ).textContent =
+                cells[6].textContent.trim();
+
+
+            modal.classList.add("open");
+
+
+            modal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+        }
+    );
+
+
+    function closeViewModal() {
+
+        modal.classList.remove("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+    }
+
+
+    closeButton.addEventListener(
+        "click",
+        closeViewModal
+    );
+
+
+    modal.addEventListener(
+        "click",
+        (event) => {
+
+            if (event.target === modal) {
+                closeViewModal();
+            }
+
+        }
+    );
+
+});
