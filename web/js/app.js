@@ -1548,3 +1548,297 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   MILESTONE MANAGEMENT
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal =
+        document.getElementById("milestone-modal");
+
+    const openButton =
+        document.getElementById("open-milestone-modal");
+
+    const closeButton =
+        document.getElementById("close-milestone-modal");
+
+    const cancelButton =
+        document.getElementById("cancel-milestone-modal");
+
+    const form =
+        document.getElementById("add-milestone-form");
+
+
+    if (!modal || !openButton || !form) {
+        return;
+    }
+
+
+    function openMilestoneModal() {
+
+        modal.classList.add("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+
+
+    function closeMilestoneModal() {
+
+        modal.classList.remove("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        form.reset();
+
+        document.getElementById(
+            "milestone-progress"
+        ).value = "0";
+
+    }
+
+
+    openButton.addEventListener(
+        "click",
+        openMilestoneModal
+    );
+
+
+    closeButton.addEventListener(
+        "click",
+        closeMilestoneModal
+    );
+
+
+    cancelButton.addEventListener(
+        "click",
+        closeMilestoneModal
+    );
+
+
+    modal.addEventListener(
+        "click",
+        (event) => {
+
+            if (event.target === modal) {
+                closeMilestoneModal();
+            }
+
+        }
+    );
+
+
+    function updateMilestoneCounts() {
+
+        const pending =
+            document
+                .getElementById("pending-milestones")
+                .querySelectorAll(".milestone-card")
+                .length;
+
+
+        const progress =
+            document
+                .getElementById("progress-milestones")
+                .querySelectorAll(".milestone-card")
+                .length;
+
+
+        const completed =
+            document
+                .getElementById("completed-milestones")
+                .querySelectorAll(".milestone-card")
+                .length;
+
+
+        document.getElementById(
+            "pending-count"
+        ).textContent = pending;
+
+
+        document.getElementById(
+            "progress-count"
+        ).textContent = progress;
+
+
+        document.getElementById(
+            "completed-count"
+        ).textContent = completed;
+
+    }
+
+
+    form.addEventListener(
+        "submit",
+        (event) => {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("milestone-name")
+                    .value
+                    .trim();
+
+
+            const project =
+                document
+                    .getElementById("milestone-project")
+                    .value;
+
+
+            const status =
+                document
+                    .getElementById("milestone-status")
+                    .value;
+
+
+            const progress =
+                Number(
+                    document
+                        .getElementById("milestone-progress")
+                        .value
+                );
+
+
+            const dueDate =
+                document
+                    .getElementById("milestone-due-date")
+                    .value;
+
+
+            const description =
+                document
+                    .getElementById("milestone-description")
+                    .value
+                    .trim();
+
+
+            let destination =
+                document.getElementById(
+                    "pending-milestones"
+                );
+
+
+            let statusClass =
+                "planning";
+
+
+            let statusLabel =
+                "Pending";
+
+
+            if (status === "in-progress") {
+
+                destination =
+                    document.getElementById(
+                        "progress-milestones"
+                    );
+
+                statusClass =
+                    "in-progress";
+
+                statusLabel =
+                    "In Progress";
+
+            }
+
+
+            if (status === "completed") {
+
+                destination =
+                    document.getElementById(
+                        "completed-milestones"
+                    );
+
+                statusClass =
+                    "completed";
+
+                statusLabel =
+                    "Completed";
+
+            }
+
+
+            const card =
+                document.createElement("article");
+
+
+            card.className =
+                "milestone-card";
+
+
+            const completedClass =
+                status === "completed"
+                    ? " completed"
+                    : "";
+
+
+            card.innerHTML = `
+                <div class="milestone-card-header">
+
+                    <h3>${name}</h3>
+
+                    <span class="project-status ${statusClass}">
+                        ${statusLabel}
+                    </span>
+
+                </div>
+
+                <p class="milestone-project-name">
+                    ${project}
+                </p>
+
+                <p class="milestone-description">
+                    ${description}
+                </p>
+
+                <div class="milestone-progress-row">
+
+                    <span>Progress</span>
+
+                    <strong>${progress}%</strong>
+
+                </div>
+
+                <div class="milestone-progress-track${completedClass}">
+
+                    <span style="width: ${progress}%;"></span>
+
+                </div>
+
+                <div class="milestone-due-date">
+                    Due: ${dueDate}
+                </div>
+            `;
+
+
+            destination.appendChild(card);
+
+
+            updateMilestoneCounts();
+
+
+            closeMilestoneModal();
+
+        }
+    );
+
+});

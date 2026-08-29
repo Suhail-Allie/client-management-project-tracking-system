@@ -2111,3 +2111,234 @@ input {
     }
 
 }
+
+
+
+
+
+
+/* =========================================================
+   MILESTONE MANAGEMENT
+========================================================= */
+
+.milestone-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+}
+
+.milestone-column {
+    overflow: hidden;
+    border: 1px solid #e5e9ef;
+    border-radius: 8px;
+    background-color: #f9fafc;
+}
+
+.milestone-column-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #e7eaf0;
+    background-color: #ffffff;
+}
+
+.milestone-column-heading > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.milestone-column-heading h2 {
+    font-size: 13px;
+    color: #30394a;
+}
+
+.milestone-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.milestone-dot.pending {
+    background-color: #f59e0b;
+}
+
+.milestone-dot.progress {
+    background-color: #2563eb;
+}
+
+.milestone-dot.completed {
+    background-color: #22a65a;
+}
+
+.milestone-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 7px;
+    border-radius: 12px;
+    background-color: #f0f2f5;
+    color: #687386;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   MILESTONE CARDS
+========================================================= */
+
+.milestone-column-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+}
+
+.milestone-card {
+    padding: 16px;
+    border: 1px solid #e5e9ef;
+    border-radius: 7px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 7px rgba(15, 23, 42, 0.03);
+}
+
+.milestone-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.milestone-card-header h3 {
+    font-size: 12px;
+    color: #30394a;
+}
+
+.milestone-project-name {
+    margin-bottom: 10px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.milestone-description {
+    min-height: 35px;
+    margin-bottom: 14px;
+    font-size: 10px;
+    line-height: 1.6;
+    color: #788293;
+}
+
+.milestone-progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.milestone-progress-row span,
+.milestone-progress-row strong {
+    font-size: 9px;
+}
+
+.milestone-progress-row span {
+    color: #8992a1;
+}
+
+.milestone-progress-row strong {
+    color: #4c5667;
+}
+
+.milestone-progress-track {
+    width: 100%;
+    height: 5px;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #e9edf3;
+}
+
+.milestone-progress-track span {
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #2563eb;
+}
+
+.milestone-progress-track.completed span {
+    background-color: #22a65a;
+}
+
+.milestone-due-date {
+    margin-top: 12px;
+    font-size: 9px;
+    color: #9ba3af;
+}
+
+
+/* =========================================================
+   MILESTONE FORM
+========================================================= */
+
+#add-milestone-form {
+    padding: 22px;
+}
+
+#add-milestone-form select {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #d7dce5;
+    border-radius: 5px;
+    outline: none;
+    background-color: #ffffff;
+    color: #374151;
+}
+
+#add-milestone-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d7dce5;
+    border-radius: 5px;
+    outline: none;
+    resize: vertical;
+    font: inherit;
+    font-size: 13px;
+}
+
+#add-milestone-form textarea:focus,
+#add-milestone-form select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.milestone-description-field {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   MILESTONE RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .milestone-board {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .milestone-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+}
