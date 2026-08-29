@@ -612,3 +612,363 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const projectSearch =
+        document.getElementById("project-search");
+
+    const projectFilter =
+        document.getElementById("project-status-filter");
+
+    const projectGrid =
+        document.getElementById("project-grid");
+
+    const emptyMessage =
+        document.getElementById("project-empty-message");
+
+
+    if (!projectSearch || !projectFilter || !projectGrid) {
+        return;
+    }
+
+
+    function filterProjects() {
+
+        const searchValue =
+            projectSearch.value
+                .toLowerCase()
+                .trim();
+
+        const statusValue =
+            projectFilter.value;
+
+        const projectCards =
+            projectGrid.querySelectorAll(".project-card");
+
+        let visibleProjects = 0;
+
+
+        projectCards.forEach((card) => {
+
+            const cardText =
+                card.textContent.toLowerCase();
+
+            const cardStatus =
+                card.dataset.status;
+
+            const matchesSearch =
+                cardText.includes(searchValue);
+
+            const matchesStatus =
+                statusValue === "all" ||
+                statusValue === cardStatus;
+
+
+            if (matchesSearch && matchesStatus) {
+
+                card.style.display = "";
+
+                visibleProjects++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        if (emptyMessage) {
+
+            emptyMessage.style.display =
+                visibleProjects === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+    }
+
+
+    projectSearch.addEventListener(
+        "input",
+        filterProjects
+    );
+
+
+    projectFilter.addEventListener(
+        "change",
+        filterProjects
+    );
+
+});
+
+
+/* =========================================================
+   CREATE PROJECT MODAL
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal =
+        document.getElementById("project-modal");
+
+    const openButton =
+        document.getElementById("open-project-modal");
+
+    const closeButton =
+        document.getElementById("close-project-modal");
+
+    const cancelButton =
+        document.getElementById("cancel-project-modal");
+
+    const form =
+        document.getElementById("create-project-form");
+
+    const projectGrid =
+        document.getElementById("project-grid");
+
+
+    if (!modal || !openButton || !form || !projectGrid) {
+        return;
+    }
+
+
+    function openProjectModal() {
+
+        modal.classList.add("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+
+
+    function closeProjectModal() {
+
+        modal.classList.remove("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        form.reset();
+
+    }
+
+
+    openButton.addEventListener(
+        "click",
+        openProjectModal
+    );
+
+
+    closeButton.addEventListener(
+        "click",
+        closeProjectModal
+    );
+
+
+    cancelButton.addEventListener(
+        "click",
+        closeProjectModal
+    );
+
+
+    modal.addEventListener("click", (event) => {
+
+        if (event.target === modal) {
+            closeProjectModal();
+        }
+
+    });
+
+
+    form.addEventListener("submit", (event) => {
+
+        event.preventDefault();
+
+
+        const name =
+            document
+                .getElementById("project-name")
+                .value
+                .trim();
+
+        const client =
+            document
+                .getElementById("project-client")
+                .value;
+
+        const developer =
+            document
+                .getElementById("project-developer")
+                .value
+                .trim();
+
+        const budget =
+            document
+                .getElementById("project-budget")
+                .value;
+
+        const startDate =
+            document
+                .getElementById("project-start-date")
+                .value;
+
+        const endDate =
+            document
+                .getElementById("project-end-date")
+                .value;
+
+        const status =
+            document
+                .getElementById("project-status")
+                .value;
+
+
+        const projectCount =
+            projectGrid.querySelectorAll(
+                ".project-card"
+            ).length;
+
+        const projectId =
+            "PR" +
+            String(projectCount + 1)
+                .padStart(3, "0");
+
+
+        let statusLabel = "Planning";
+
+        let progress = 10;
+
+
+        if (status === "in-progress") {
+
+            statusLabel = "In Progress";
+
+            progress = 40;
+
+        }
+
+
+        if (status === "completed") {
+
+            statusLabel = "Completed";
+
+            progress = 100;
+
+        }
+
+
+        const formattedBudget =
+            Number(budget).toLocaleString(
+                "en-ZA"
+            );
+
+
+        const projectCard =
+            document.createElement("article");
+
+
+        projectCard.className =
+            "project-card";
+
+        projectCard.dataset.status =
+            status;
+
+
+        projectCard.innerHTML = `
+            <div class="project-card-top">
+
+                <div>
+                    <h2>${name}</h2>
+                    <p>${client}</p>
+                </div>
+
+                <span class="project-status ${status}">
+                    ${statusLabel}
+                </span>
+
+            </div>
+
+            <div class="project-info-list">
+
+                <div>
+                    <span>Developer</span>
+                    <strong>${developer}</strong>
+                </div>
+
+                <div>
+                    <span>Budget</span>
+                    <strong>R${formattedBudget}</strong>
+                </div>
+
+                <div>
+                    <span>Timeline</span>
+                    <strong>
+                        ${startDate} - ${endDate}
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="project-progress">
+
+                <div class="project-progress-header">
+                    <span>Completion</span>
+                    <strong>${progress}%</strong>
+                </div>
+
+                <div class="project-progress-track">
+                    <span style="width: ${progress}%;"></span>
+                </div>
+
+            </div>
+
+            <div class="project-card-actions">
+
+                <a
+                    href="project-details.html?id=${projectId}"
+                    class="project-action view"
+                >
+                    View
+                </a>
+
+                <button
+                    class="project-action edit"
+                    type="button"
+                >
+                    Edit
+                </button>
+
+                <button
+                    class="project-action delete"
+                    type="button"
+                >
+                    Delete
+                </button>
+
+            </div>
+        `;
+
+
+        projectGrid.appendChild(
+            projectCard
+        );
+
+
+        closeProjectModal();
+
+    });
+
+});

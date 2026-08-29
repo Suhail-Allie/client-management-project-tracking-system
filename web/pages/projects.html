@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Projects | Web App Solutions</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="sidebar-link">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="clients.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a href="projects.html" class="sidebar-link active">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a href="milestones.html" class="sidebar-link">
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a href="documents.html" class="sidebar-link">
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a href="invoices.html" class="sidebar-link">
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a href="reports.html" class="sidebar-link">
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a href="notifications.html" class="sidebar-link">
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a href="users.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a href="profile.html" class="sidebar-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a href="../index.html" class="logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- PROJECT CONTENT -->
+            <section class="dashboard-content">
+
+                <div class="page-heading-row">
+
+                    <div>
+                        <h1>Project Management</h1>
+                        <p>Track and manage all projects</p>
+                    </div>
+
+                    <button
+                        class="primary-action-button"
+                        id="open-project-modal"
+                        type="button"
+                    >
+                        + Create Project
+                    </button>
+
+                </div>
+
+
+                <!-- FILTERS -->
+                <section class="project-toolbar">
+
+                    <div class="management-search">
+
+                        <input
+                            type="search"
+                            id="project-search"
+                            placeholder="Search projects..."
+                            aria-label="Search projects"
+                        >
+
+                    </div>
+
+                    <select
+                        id="project-status-filter"
+                        class="management-filter"
+                    >
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="planning">
+                            Planning
+                        </option>
+
+                        <option value="in-progress">
+                            In Progress
+                        </option>
+
+                        <option value="completed">
+                            Completed
+                        </option>
+                    </select>
+
+                </section>
+
+
+                <!-- PROJECT CARDS -->
+                <section
+                    class="project-grid"
+                    id="project-grid"
+                >
+
+                    <!-- PROJECT 1 -->
+                    <article
+                        class="project-card"
+                        data-status="in-progress"
+                    >
+
+                        <div class="project-card-top">
+
+                            <div>
+                                <h2>
+                                    E-commerce Platform
+                                </h2>
+
+                                <p>
+                                    TechCorp Inc.
+                                </p>
+                            </div>
+
+                            <span class="project-status in-progress">
+                                In Progress
+                            </span>
+
+                        </div>
+
+
+                        <div class="project-info-list">
+
+                            <div>
+                                <span>Developer</span>
+                                <strong>Mike Developer</strong>
+                            </div>
+
+                            <div>
+                                <span>Budget</span>
+                                <strong>R45,000</strong>
+                            </div>
+
+                            <div>
+                                <span>Timeline</span>
+                                <strong>
+                                    2026-06-15 - 2026-09-15
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-progress">
+
+                            <div class="project-progress-header">
+                                <span>Completion</span>
+                                <strong>65%</strong>
+                            </div>
+
+                            <div class="project-progress-track">
+                                <span style="width: 65%;"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-card-actions">
+
+                            <a
+                                href="project-details.html?id=PR001"
+                                class="project-action view"
+                            >
+                                View
+                            </a>
+
+                            <button
+                                class="project-action edit"
+                                type="button"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="project-action delete"
+                                type="button"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT 2 -->
+                    <article
+                        class="project-card"
+                        data-status="in-progress"
+                    >
+
+                        <div class="project-card-top">
+
+                            <div>
+                                <h2>
+                                    Mobile App Development
+                                </h2>
+
+                                <p>
+                                    Digital Solutions Ltd.
+                                </p>
+                            </div>
+
+                            <span class="project-status in-progress">
+                                In Progress
+                            </span>
+
+                        </div>
+
+
+                        <div class="project-info-list">
+
+                            <div>
+                                <span>Developer</span>
+                                <strong>Sarah Developer</strong>
+                            </div>
+
+                            <div>
+                                <span>Budget</span>
+                                <strong>R52,000</strong>
+                            </div>
+
+                            <div>
+                                <span>Timeline</span>
+                                <strong>
+                                    2026-06-21 - 2026-09-30
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-progress">
+
+                            <div class="project-progress-header">
+                                <span>Completion</span>
+                                <strong>40%</strong>
+                            </div>
+
+                            <div class="project-progress-track">
+                                <span style="width: 40%;"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-card-actions">
+
+                            <a
+                                href="project-details.html?id=PR002"
+                                class="project-action view"
+                            >
+                                View
+                            </a>
+
+                            <button
+                                class="project-action edit"
+                                type="button"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="project-action delete"
+                                type="button"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT 3 -->
+                    <article
+                        class="project-card"
+                        data-status="completed"
+                    >
+
+                        <div class="project-card-top">
+
+                            <div>
+                                <h2>
+                                    CRM System
+                                </h2>
+
+                                <p>
+                                    Innovatech Labs
+                                </p>
+                            </div>
+
+                            <span class="project-status completed">
+                                Completed
+                            </span>
+
+                        </div>
+
+
+                        <div class="project-info-list">
+
+                            <div>
+                                <span>Developer</span>
+                                <strong>Mike Developer</strong>
+                            </div>
+
+                            <div>
+                                <span>Budget</span>
+                                <strong>R38,500</strong>
+                            </div>
+
+                            <div>
+                                <span>Timeline</span>
+                                <strong>
+                                    2026-03-01 - 2026-08-20
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-progress">
+
+                            <div class="project-progress-header">
+                                <span>Completion</span>
+                                <strong>100%</strong>
+                            </div>
+
+                            <div class="project-progress-track">
+                                <span style="width: 100%;"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-card-actions">
+
+                            <a
+                                href="project-details.html?id=PR003"
+                                class="project-action view"
+                            >
+                                View
+                            </a>
+
+                            <button
+                                class="project-action edit"
+                                type="button"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="project-action delete"
+                                type="button"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT 4 -->
+                    <article
+                        class="project-card"
+                        data-status="planning"
+                    >
+
+                        <div class="project-card-top">
+
+                            <div>
+                                <h2>
+                                    Website Redesign
+                                </h2>
+
+                                <p>
+                                    StartupHub
+                                </p>
+                            </div>
+
+                            <span class="project-status planning">
+                                Planning
+                            </span>
+
+                        </div>
+
+
+                        <div class="project-info-list">
+
+                            <div>
+                                <span>Developer</span>
+                                <strong>Emily Developer</strong>
+                            </div>
+
+                            <div>
+                                <span>Budget</span>
+                                <strong>R18,500</strong>
+                            </div>
+
+                            <div>
+                                <span>Timeline</span>
+                                <strong>
+                                    2026-09-01 - 2026-10-05
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-progress">
+
+                            <div class="project-progress-header">
+                                <span>Completion</span>
+                                <strong>10%</strong>
+                            </div>
+
+                            <div class="project-progress-track">
+                                <span style="width: 10%;"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-card-actions">
+
+                            <a
+                                href="project-details.html?id=PR004"
+                                class="project-action view"
+                            >
+                                View
+                            </a>
+
+                            <button
+                                class="project-action edit"
+                                type="button"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="project-action delete"
+                                type="button"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <p
+                    class="project-empty-message"
+                    id="project-empty-message"
+                >
+                    No projects found.
+                </p>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- CREATE PROJECT MODAL -->
+    <div
+        class="modal-overlay"
+        id="project-modal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-card">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Create Project</h2>
+                    <p>
+                        Enter the project information.
+                    </p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    id="close-project-modal"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="create-project-form">
+
+                <div class="modal-form-grid">
+
+                    <div class="form-group">
+
+                        <label for="project-name">
+                            Project Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="project-name"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-client">
+                            Client
+                        </label>
+
+                        <select
+                            id="project-client"
+                            required
+                        >
+                            <option value="">
+                                Select client
+                            </option>
+
+                            <option>
+                                TechCorp Inc.
+                            </option>
+
+                            <option>
+                                Digital Solutions Ltd.
+                            </option>
+
+                            <option>
+                                Innovatech Labs
+                            </option>
+
+                            <option>
+                                StartupHub
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-developer">
+                            Assigned Developer
+                        </label>
+
+                        <input
+                            type="text"
+                            id="project-developer"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-budget">
+                            Budget
+                        </label>
+
+                        <input
+                            type="number"
+                            id="project-budget"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-start-date">
+                            Start Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="project-start-date"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-end-date">
+                            Deadline
+                        </label>
+
+                        <input
+                            type="date"
+                            id="project-end-date"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="project-status">
+                            Status
+                        </label>
+
+                        <select id="project-status">
+
+                            <option value="planning">
+                                Planning
+                            </option>
+
+                            <option value="in-progress">
+                                In Progress
+                            </option>
+
+                            <option value="completed">
+                                Completed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        class="secondary-button"
+                        id="cancel-project-modal"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-action-button"
+                        type="submit"
+                    >
+                        Create Project
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>
