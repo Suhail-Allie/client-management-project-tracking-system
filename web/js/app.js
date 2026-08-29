@@ -972,3 +972,579 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+
+
+
+
+/* =========================================================
+   PROJECT DETAILS
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const projectName =
+        document.getElementById("project-detail-name");
+
+
+    if (!projectName) {
+        return;
+    }
+
+
+    /* =====================================================
+       SAMPLE PROJECT DATA
+    ====================================================== */
+
+    const projects = {
+
+        PR001: {
+
+            name: "E-commerce Platform",
+
+            client: "TechCorp Inc.",
+
+            developer: "Mike Developer",
+
+            budget: 45000,
+
+            startDate: "2026-06-15",
+
+            deadline: "2026-09-15",
+
+            progress: 65,
+
+            status: "in-progress",
+
+            description:
+                "Development of a responsive e-commerce platform that allows customers to browse products, manage their shopping cart and complete online orders."
+
+        },
+
+
+        PR002: {
+
+            name: "Mobile App Development",
+
+            client: "Digital Solutions Ltd.",
+
+            developer: "Sarah Developer",
+
+            budget: 52000,
+
+            startDate: "2026-06-21",
+
+            deadline: "2026-09-30",
+
+            progress: 40,
+
+            status: "in-progress",
+
+            description:
+                "Development of a mobile application that provides users with convenient access to the organisation's services and important account information."
+
+        },
+
+
+        PR003: {
+
+            name: "CRM System",
+
+            client: "Innovatech Labs",
+
+            developer: "Mike Developer",
+
+            budget: 38500,
+
+            startDate: "2026-03-01",
+
+            deadline: "2026-08-20",
+
+            progress: 100,
+
+            status: "completed",
+
+            description:
+                "Development of a customer relationship management system used to organise client information, communication and important business activities."
+
+        },
+
+
+        PR004: {
+
+            name: "Website Redesign",
+
+            client: "StartupHub",
+
+            developer: "Emily Developer",
+
+            budget: 18500,
+
+            startDate: "2026-09-01",
+
+            deadline: "2026-10-05",
+
+            progress: 10,
+
+            status: "planning",
+
+            description:
+                "Redesign of the existing company website to improve usability, responsiveness, navigation and overall presentation."
+
+        }
+
+    };
+
+
+    /* =====================================================
+       GET PROJECT ID FROM URL
+    ====================================================== */
+
+    const parameters =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const projectId =
+        parameters.get("id") || "PR001";
+
+
+    const project =
+        projects[projectId] ||
+        projects.PR001;
+
+
+    /* =====================================================
+       STATUS LABEL
+    ====================================================== */
+
+    function getStatusLabel(status) {
+
+        if (status === "completed") {
+            return "Completed";
+        }
+
+        if (status === "in-progress") {
+            return "In Progress";
+        }
+
+        return "Planning";
+
+    }
+
+
+    /* =====================================================
+       DATE DISPLAY
+    ====================================================== */
+
+    function formatDisplayDate(dateValue) {
+
+        const date =
+            new Date(
+                `${dateValue}T00:00:00`
+            );
+
+
+        return date.toLocaleDateString(
+            "en-ZA",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       PROJECT DURATION
+    ====================================================== */
+
+    function calculateDuration(
+        startDate,
+        deadline
+    ) {
+
+        const start =
+            new Date(startDate);
+
+        const end =
+            new Date(deadline);
+
+        const difference =
+            end - start;
+
+        const days =
+            Math.ceil(
+                difference /
+                (1000 * 60 * 60 * 24)
+            );
+
+        return `${days} Days`;
+
+    }
+
+
+    /* =====================================================
+       DISPLAY PROJECT
+    ====================================================== */
+
+    function displayProject() {
+
+        const formattedBudget =
+            `R${Number(project.budget)
+                .toLocaleString("en-ZA")}`;
+
+
+        const statusLabel =
+            getStatusLabel(
+                project.status
+            );
+
+
+        document.getElementById(
+            "project-detail-name"
+        ).textContent =
+            project.name;
+
+
+        document.getElementById(
+            "project-detail-client"
+        ).textContent =
+            project.client;
+
+
+        document.getElementById(
+            "project-detail-id"
+        ).textContent =
+            `Project ID: ${projectId}`;
+
+
+        document.getElementById(
+            "project-detail-budget"
+        ).textContent =
+            formattedBudget;
+
+
+        document.getElementById(
+            "project-detail-developer"
+        ).textContent =
+            project.developer;
+
+
+        document.getElementById(
+            "project-detail-start-date"
+        ).textContent =
+            formatDisplayDate(
+                project.startDate
+            );
+
+
+        document.getElementById(
+            "project-detail-deadline"
+        ).textContent =
+            formatDisplayDate(
+                project.deadline
+            );
+
+
+        document.getElementById(
+            "project-detail-percentage"
+        ).textContent =
+            `${project.progress}%`;
+
+
+        document.getElementById(
+            "project-detail-progress-bar"
+        ).style.width =
+            `${project.progress}%`;
+
+
+        document.getElementById(
+            "project-info-client"
+        ).textContent =
+            project.client;
+
+
+        document.getElementById(
+            "project-info-developer"
+        ).textContent =
+            project.developer;
+
+
+        document.getElementById(
+            "project-info-status"
+        ).textContent =
+            statusLabel;
+
+
+        document.getElementById(
+            "project-info-budget"
+        ).textContent =
+            formattedBudget;
+
+
+        document.getElementById(
+            "project-info-start-date"
+        ).textContent =
+            project.startDate;
+
+
+        document.getElementById(
+            "project-info-deadline"
+        ).textContent =
+            project.deadline;
+
+
+        document.getElementById(
+            "project-info-duration"
+        ).textContent =
+            calculateDuration(
+                project.startDate,
+                project.deadline
+            );
+
+
+        document.getElementById(
+            "project-description"
+        ).textContent =
+            project.description;
+
+
+        const statusBadge =
+            document.getElementById(
+                "project-detail-status"
+            );
+
+
+        statusBadge.textContent =
+            statusLabel;
+
+
+        statusBadge.className =
+            `project-status ${project.status}`;
+
+    }
+
+
+    displayProject();
+
+
+    /* =====================================================
+       EDIT PROJECT MODAL
+    ====================================================== */
+
+    const modal =
+        document.getElementById(
+            "edit-project-modal"
+        );
+
+
+    const openButton =
+        document.getElementById(
+            "open-edit-project-modal"
+        );
+
+
+    const closeButton =
+        document.getElementById(
+            "close-edit-project-modal"
+        );
+
+
+    const cancelButton =
+        document.getElementById(
+            "cancel-edit-project-modal"
+        );
+
+
+    const form =
+        document.getElementById(
+            "edit-project-form"
+        );
+
+
+    function openEditProjectModal() {
+
+        document.getElementById(
+            "edit-project-name"
+        ).value =
+            project.name;
+
+
+        document.getElementById(
+            "edit-project-client"
+        ).value =
+            project.client;
+
+
+        document.getElementById(
+            "edit-project-developer"
+        ).value =
+            project.developer;
+
+
+        document.getElementById(
+            "edit-project-budget"
+        ).value =
+            project.budget;
+
+
+        document.getElementById(
+            "edit-project-start-date"
+        ).value =
+            project.startDate;
+
+
+        document.getElementById(
+            "edit-project-deadline"
+        ).value =
+            project.deadline;
+
+
+        document.getElementById(
+            "edit-project-progress"
+        ).value =
+            project.progress;
+
+
+        document.getElementById(
+            "edit-project-status"
+        ).value =
+            project.status;
+
+
+        modal.classList.add(
+            "open"
+        );
+
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+
+
+    function closeEditProjectModal() {
+
+        modal.classList.remove(
+            "open"
+        );
+
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+    }
+
+
+    openButton.addEventListener(
+        "click",
+        openEditProjectModal
+    );
+
+
+    closeButton.addEventListener(
+        "click",
+        closeEditProjectModal
+    );
+
+
+    cancelButton.addEventListener(
+        "click",
+        closeEditProjectModal
+    );
+
+
+    modal.addEventListener(
+        "click",
+        (event) => {
+
+            if (event.target === modal) {
+
+                closeEditProjectModal();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       SAVE FRONTEND CHANGES
+    ====================================================== */
+
+    form.addEventListener(
+        "submit",
+        (event) => {
+
+            event.preventDefault();
+
+
+            project.name =
+                document.getElementById(
+                    "edit-project-name"
+                ).value.trim();
+
+
+            project.client =
+                document.getElementById(
+                    "edit-project-client"
+                ).value.trim();
+
+
+            project.developer =
+                document.getElementById(
+                    "edit-project-developer"
+                ).value.trim();
+
+
+            project.budget =
+                Number(
+                    document.getElementById(
+                        "edit-project-budget"
+                    ).value
+                );
+
+
+            project.startDate =
+                document.getElementById(
+                    "edit-project-start-date"
+                ).value;
+
+
+            project.deadline =
+                document.getElementById(
+                    "edit-project-deadline"
+                ).value;
+
+
+            project.progress =
+                Number(
+                    document.getElementById(
+                        "edit-project-progress"
+                    ).value
+                );
+
+
+            project.status =
+                document.getElementById(
+                    "edit-project-status"
+                ).value;
+
+
+            displayProject();
+
+
+            closeEditProjectModal();
+
+        }
+    );
+
+});

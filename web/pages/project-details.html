@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Project Details | Web App Solutions</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="dashboard.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a
+                    href="clients.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a
+                    href="projects.html"
+                    class="sidebar-link active"
+                >
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a
+                    href="milestones.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a
+                    href="documents.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a
+                    href="invoices.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a
+                    href="reports.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a
+                    href="notifications.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a
+                    href="users.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a
+                href="../index.html"
+                class="logout-link"
+            >
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 PROJECT DETAILS
+            ================================================== -->
+            <section class="dashboard-content">
+
+                <a
+                    href="projects.html"
+                    class="back-link"
+                >
+                    ← Back to Projects
+                </a>
+
+
+                <!-- PROJECT HEADER -->
+                <div class="project-details-heading">
+
+                    <div>
+
+                        <div class="project-title-row">
+
+                            <h1 id="project-detail-name">
+                                E-commerce Platform
+                            </h1>
+
+                            <span
+                                id="project-detail-status"
+                                class="project-status in-progress"
+                            >
+                                In Progress
+                            </span>
+
+                        </div>
+
+                        <p id="project-detail-client">
+                            TechCorp Inc.
+                        </p>
+
+                        <span
+                            class="project-id-text"
+                            id="project-detail-id"
+                        >
+                            Project ID: PR001
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="primary-action-button"
+                        id="open-edit-project-modal"
+                        type="button"
+                    >
+                        Edit Project
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     PROJECT SUMMARY
+                ================================================== -->
+                <section class="project-detail-summary-grid">
+
+                    <article class="project-detail-summary-card">
+
+                        <p>Budget</p>
+
+                        <h2 id="project-detail-budget">
+                            R45,000
+                        </h2>
+
+                    </article>
+
+
+                    <article class="project-detail-summary-card">
+
+                        <p>Assigned Developer</p>
+
+                        <h2
+                            class="project-summary-text"
+                            id="project-detail-developer"
+                        >
+                            Mike Developer
+                        </h2>
+
+                    </article>
+
+
+                    <article class="project-detail-summary-card">
+
+                        <p>Start Date</p>
+
+                        <h2
+                            class="project-summary-text"
+                            id="project-detail-start-date"
+                        >
+                            15 Jun 2026
+                        </h2>
+
+                    </article>
+
+
+                    <article class="project-detail-summary-card">
+
+                        <p>Deadline</p>
+
+                        <h2
+                            class="project-summary-text"
+                            id="project-detail-deadline"
+                        >
+                            15 Sep 2026
+                        </h2>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================================
+                     PROGRESS
+                ================================================== -->
+                <section class="details-card project-progress-card">
+
+                    <div class="details-card-heading">
+
+                        <div>
+                            <h2>Project Progress</h2>
+
+                            <p>
+                                Current completion status
+                            </p>
+                        </div>
+
+                        <strong
+                            class="project-large-percentage"
+                            id="project-detail-percentage"
+                        >
+                            65%
+                        </strong>
+
+                    </div>
+
+                    <div class="project-detail-progress-content">
+
+                        <div class="project-detail-progress-track">
+
+                            <span
+                                id="project-detail-progress-bar"
+                                style="width: 65%;"
+                            ></span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     PROJECT INFORMATION
+                ================================================== -->
+                <section class="project-information-grid">
+
+                    <article class="details-card">
+
+                        <div class="details-card-heading">
+
+                            <h2>Project Information</h2>
+
+                        </div>
+
+                        <div class="details-list">
+
+                            <div class="detail-row">
+
+                                <span>Client</span>
+
+                                <strong id="project-info-client">
+                                    TechCorp Inc.
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>Assigned Developer</span>
+
+                                <strong id="project-info-developer">
+                                    Mike Developer
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>Project Status</span>
+
+                                <strong id="project-info-status">
+                                    In Progress
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>Budget</span>
+
+                                <strong id="project-info-budget">
+                                    R45,000
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="details-card">
+
+                        <div class="details-card-heading">
+
+                            <h2>Timeline</h2>
+
+                        </div>
+
+                        <div class="details-list">
+
+                            <div class="detail-row">
+
+                                <span>Start Date</span>
+
+                                <strong id="project-info-start-date">
+                                    2026-06-15
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>Deadline</span>
+
+                                <strong id="project-info-deadline">
+                                    2026-09-15
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>Duration</span>
+
+                                <strong id="project-info-duration">
+                                    92 Days
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>Last Updated</span>
+
+                                <strong>
+                                    28 Aug 2026
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================================
+                     DESCRIPTION
+                ================================================== -->
+                <section class="details-card project-description-card">
+
+                    <div class="details-card-heading">
+
+                        <h2>Project Description</h2>
+
+                    </div>
+
+                    <div class="project-description-content">
+
+                        <p id="project-description">
+                            Development of a responsive e-commerce
+                            platform that allows customers to browse
+                            products, manage their shopping cart and
+                            complete online orders.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     MILESTONES
+                ================================================== -->
+                <section class="details-card project-section-card">
+
+                    <div class="details-card-heading">
+
+                        <div>
+                            <h2>Project Milestones</h2>
+
+                            <p>
+                                Key stages and progress for this project
+                            </p>
+                        </div>
+
+                        <a
+                            href="milestones.html"
+                            class="text-link"
+                        >
+                            View All Milestones
+                        </a>
+
+                    </div>
+
+
+                    <div class="project-milestone-list">
+
+                        <div class="project-milestone-item">
+
+                            <div class="milestone-check completed">
+                                ✓
+                            </div>
+
+                            <div class="project-milestone-info">
+
+                                <div class="project-milestone-title">
+
+                                    <strong>
+                                        Requirements & Planning
+                                    </strong>
+
+                                    <span class="project-status completed">
+                                        Completed
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    Requirements gathering and
+                                    initial project planning.
+                                </p>
+
+                                <span>
+                                    Due: 30 Jun 2026
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-milestone-item">
+
+                            <div class="milestone-check completed">
+                                ✓
+                            </div>
+
+                            <div class="project-milestone-info">
+
+                                <div class="project-milestone-title">
+
+                                    <strong>
+                                        UI Design
+                                    </strong>
+
+                                    <span class="project-status completed">
+                                        Completed
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    User interface and layout design.
+                                </p>
+
+                                <span>
+                                    Due: 20 Jul 2026
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-milestone-item">
+
+                            <div class="milestone-check current">
+                                3
+                            </div>
+
+                            <div class="project-milestone-info">
+
+                                <div class="project-milestone-title">
+
+                                    <strong>
+                                        Development
+                                    </strong>
+
+                                    <span class="project-status in-progress">
+                                        In Progress
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    Frontend and backend development
+                                    of the main system features.
+                                </p>
+
+                                <span>
+                                    Due: 31 Aug 2026
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="project-milestone-item">
+
+                            <div class="milestone-check">
+                                4
+                            </div>
+
+                            <div class="project-milestone-info">
+
+                                <div class="project-milestone-title">
+
+                                    <strong>
+                                        Testing & Deployment
+                                    </strong>
+
+                                    <span class="project-status planning">
+                                        Planning
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    Final testing, corrections and
+                                    deployment preparation.
+                                </p>
+
+                                <span>
+                                    Due: 15 Sep 2026
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     DOCUMENTS
+                ================================================== -->
+                <section class="details-card project-section-card">
+
+                    <div class="details-card-heading">
+
+                        <div>
+                            <h2>Project Documents</h2>
+
+                            <p>
+                                Recently uploaded project files
+                            </p>
+                        </div>
+
+                        <a
+                            href="documents.html"
+                            class="text-link"
+                        >
+                            View All Documents
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Document</th>
+                                    <th>File Type</th>
+                                    <th>Size</th>
+                                    <th>Upload Date</th>
+                                    <th>Uploaded By</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        Project_Requirements.pdf
+                                    </td>
+
+                                    <td>PDF</td>
+
+                                    <td>2.4 MB</td>
+
+                                    <td>2026-06-18</td>
+
+                                    <td>John Anderson</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>
+                                        Database_Schema.sql
+                                    </td>
+
+                                    <td>SQL</td>
+
+                                    <td>15 KB</td>
+
+                                    <td>2026-07-12</td>
+
+                                    <td>Mike Developer</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>
+                                        UI_Mockups.zip
+                                    </td>
+
+                                    <td>ZIP</td>
+
+                                    <td>8.7 MB</td>
+
+                                    <td>2026-07-20</td>
+
+                                    <td>Mike Developer</td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================================================
+         EDIT PROJECT MODAL
+    ========================================================== -->
+    <div
+        class="modal-overlay"
+        id="edit-project-modal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Edit Project</h2>
+
+                    <p>
+                        Update the project information.
+                    </p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    id="close-edit-project-modal"
+                    type="button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="edit-project-form">
+
+                <div class="modal-form-grid">
+
+                    <div class="form-group">
+
+                        <label for="edit-project-name">
+                            Project Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-project-name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-project-client">
+                            Client
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-project-client"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-project-developer">
+                            Assigned Developer
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-project-developer"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-project-budget">
+                            Budget
+                        </label>
+
+                        <input
+                            type="number"
+                            id="edit-project-budget"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-project-start-date">
+                            Start Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="edit-project-start-date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-project-deadline">
+                            Deadline
+                        </label>
+
+                        <input
+                            type="date"
+                            id="edit-project-deadline"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-project-progress">
+                            Progress (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="edit-project-progress"
+                            min="0"
+                            max="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-project-status">
+                            Status
+                        </label>
+
+                        <select id="edit-project-status">
+
+                            <option value="planning">
+                                Planning
+                            </option>
+
+                            <option value="in-progress">
+                                In Progress
+                            </option>
+
+                            <option value="completed">
+                                Completed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        class="secondary-button"
+                        id="cancel-edit-project-modal"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-action-button"
+                        type="submit"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>
