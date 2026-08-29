@@ -1257,3 +1257,309 @@ input {
     }
 
 }
+
+
+
+
+
+/* =========================================================
+   CLIENT DETAILS
+========================================================= */
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.client-details-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.client-heading-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.client-avatar-large {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: #e8f1ff;
+    color: #2563eb;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.client-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.client-name-row h1 {
+    font-size: 25px;
+    color: #1e293b;
+}
+
+.client-heading-info p {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #6f7888;
+}
+
+.client-id-text {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #9aa2af;
+}
+
+
+/* =========================================================
+   CLIENT SUMMARY
+========================================================= */
+
+.client-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.client-summary-card {
+    padding: 18px;
+    border: 1px solid #e8ebf0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.client-summary-card p {
+    margin-bottom: 9px;
+    font-size: 10px;
+    color: #87909f;
+}
+
+.client-summary-card h2 {
+    font-size: 21px;
+    color: #263041;
+}
+
+.client-summary-card .client-date-value {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   DETAILS CARDS
+========================================================= */
+
+.client-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.details-card {
+    border: 1px solid #e8ebf0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.details-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.details-card-heading h2 {
+    font-size: 14px;
+    color: #283142;
+}
+
+.details-card-heading p {
+    margin-top: 4px;
+    font-size: 10px;
+    color: #929aa8;
+}
+
+.details-list {
+    padding: 5px 20px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row span {
+    font-size: 11px;
+    color: #8992a1;
+}
+
+.detail-row strong {
+    text-align: right;
+    font-size: 11px;
+    color: #374151;
+}
+
+
+/* =========================================================
+   CLIENT PROJECTS
+========================================================= */
+
+.client-projects-card {
+    overflow: hidden;
+}
+
+.text-link {
+    color: #2563eb;
+    font-size: 10px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+.progress-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 125px;
+}
+
+.progress-track {
+    width: 85px;
+    height: 5px;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #e9edf3;
+}
+
+.progress-track span {
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #2563eb;
+}
+
+.progress-cell small {
+    min-width: 26px;
+    font-size: 9px;
+    color: #747e8f;
+}
+
+.project-status {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.project-status.in-progress {
+    background-color: #eaf2ff;
+    color: #2563eb;
+}
+
+.project-status.planning {
+    background-color: #fff6e6;
+    color: #d98b00;
+}
+
+.project-status.completed {
+    background-color: #eaf8ef;
+    color: #17994b;
+}
+
+
+/* =========================================================
+   CLIENT DETAILS RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .client-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .client-details-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .client-name-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .client-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .detail-row strong {
+        text-align: left;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .client-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .client-heading-info {
+        align-items: flex-start;
+    }
+
+    .client-avatar-large {
+        width: 48px;
+        height: 48px;
+        font-size: 15px;
+    }
+
+}

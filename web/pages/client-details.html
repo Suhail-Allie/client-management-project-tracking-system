@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Client Details | Web App Solutions</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="sidebar-link">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="clients.html" class="sidebar-link active">
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a href="projects.html" class="sidebar-link">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a href="milestones.html" class="sidebar-link">
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a href="documents.html" class="sidebar-link">
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a href="invoices.html" class="sidebar-link">
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a href="reports.html" class="sidebar-link">
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a href="notifications.html" class="sidebar-link">
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a href="users.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a href="profile.html" class="sidebar-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a href="../index.html" class="logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CLIENT DETAILS -->
+            <section class="dashboard-content">
+
+                <a
+                    href="clients.html"
+                    class="back-link"
+                >
+                    ← Back to Clients
+                </a>
+
+
+                <div class="client-details-heading">
+
+                    <div class="client-heading-info">
+
+                        <div
+                            class="client-avatar-large"
+                            id="client-avatar"
+                        >
+                            JA
+                        </div>
+
+                        <div>
+                            <div class="client-name-row">
+
+                                <h1 id="client-name">
+                                    John Anderson
+                                </h1>
+
+                                <span
+                                    id="client-status"
+                                    class="status-badge active"
+                                >
+                                    Active
+                                </span>
+
+                            </div>
+
+                            <p id="client-company">
+                                TechCorp Inc.
+                            </p>
+
+                            <span
+                                class="client-id-text"
+                                id="client-id"
+                            >
+                                Client ID: CL001
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="primary-action-button"
+                        id="open-edit-client-modal"
+                        type="button"
+                    >
+                        Edit Client
+                    </button>
+
+                </div>
+
+
+                <!-- SUMMARY -->
+                <section class="client-summary-grid">
+
+                    <article class="client-summary-card">
+
+                        <p>Active Projects</p>
+
+                        <h2 id="client-project-count">
+                            3
+                        </h2>
+
+                    </article>
+
+                    <article class="client-summary-card">
+
+                        <p>Total Projects</p>
+
+                        <h2 id="client-total-projects">
+                            5
+                        </h2>
+
+                    </article>
+
+                    <article class="client-summary-card">
+
+                        <p>Outstanding Balance</p>
+
+                        <h2 id="client-balance">
+                            R8,500
+                        </h2>
+
+                    </article>
+
+                    <article class="client-summary-card">
+
+                        <p>Client Since</p>
+
+                        <h2
+                            class="client-date-value"
+                            id="client-since"
+                        >
+                            Jan 2025
+                        </h2>
+
+                    </article>
+
+                </section>
+
+
+                <!-- INFORMATION -->
+                <section class="client-details-grid">
+
+                    <article class="details-card">
+
+                        <div class="details-card-heading">
+                            <h2>Contact Information</h2>
+                        </div>
+
+                        <div class="details-list">
+
+                            <div class="detail-row">
+
+                                <span>Email Address</span>
+
+                                <strong id="client-email">
+                                    john@techcorp.com
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-row">
+
+                                <span>Phone Number</span>
+
+                                <strong id="client-phone">
+                                    +27 82 123 4567
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-row">
+
+                                <span>Company</span>
+
+                                <strong id="client-company-detail">
+                                    TechCorp Inc.
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-row">
+
+                                <span>Registration Date</span>
+
+                                <strong id="client-registration-date">
+                                    2025-01-15
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="details-card">
+
+                        <div class="details-card-heading">
+                            <h2>Account Information</h2>
+                        </div>
+
+                        <div class="details-list">
+
+                            <div class="detail-row">
+
+                                <span>Account Status</span>
+
+                                <strong id="client-account-status">
+                                    Active
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-row">
+
+                                <span>Client Type</span>
+
+                                <strong>
+                                    Business Client
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-row">
+
+                                <span>Preferred Contact</span>
+
+                                <strong>
+                                    Email
+                                </strong>
+
+                            </div>
+
+                            <div class="detail-row">
+
+                                <span>Last Activity</span>
+
+                                <strong>
+                                    28 Aug 2026
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- PROJECTS -->
+                <section class="details-card client-projects-card">
+
+                    <div class="details-card-heading">
+
+                        <div>
+                            <h2>Recent Projects</h2>
+                            <p>
+                                Projects linked to this client
+                            </p>
+                        </div>
+
+                        <a
+                            href="projects.html"
+                            class="text-link"
+                        >
+                            View All Projects
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Assigned Developer</th>
+                                    <th>Deadline</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="client-project-table">
+
+                                <tr>
+                                    <td>
+                                        E-commerce Platform
+                                    </td>
+
+                                    <td>
+                                        Mike Developer
+                                    </td>
+
+                                    <td>
+                                        2026-09-15
+                                    </td>
+
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-track">
+                                                <span style="width: 65%;"></span>
+                                            </div>
+                                            <small>65%</small>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="project-status in-progress">
+                                            In Progress
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Website Redesign
+                                    </td>
+
+                                    <td>
+                                        Emily Developer
+                                    </td>
+
+                                    <td>
+                                        2026-10-05
+                                    </td>
+
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-track">
+                                                <span style="width: 40%;"></span>
+                                            </div>
+                                            <small>40%</small>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="project-status planning">
+                                            Planning
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        CRM System
+                                    </td>
+
+                                    <td>
+                                        Mike Developer
+                                    </td>
+
+                                    <td>
+                                        2026-08-20
+                                    </td>
+
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-track">
+                                                <span style="width: 100%;"></span>
+                                            </div>
+                                            <small>100%</small>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="project-status completed">
+                                            Completed
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- EDIT CLIENT MODAL -->
+    <div
+        class="modal-overlay"
+        id="edit-client-modal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="edit-client-modal-title"
+        >
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="edit-client-modal-title">
+                        Edit Client
+                    </h2>
+
+                    <p>
+                        Update the client's information.
+                    </p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    id="close-edit-client-modal"
+                    type="button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="edit-client-form">
+
+                <div class="modal-form-grid">
+
+                    <div class="form-group">
+
+                        <label for="edit-client-name">
+                            Client Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-client-name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-client-company">
+                            Company
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-client-company"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-client-email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="edit-client-email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-client-phone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="edit-client-phone"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="edit-client-status">
+                            Status
+                        </label>
+
+                        <select id="edit-client-status">
+
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        class="secondary-button"
+                        id="cancel-edit-client-modal"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-action-button"
+                        type="submit"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>
