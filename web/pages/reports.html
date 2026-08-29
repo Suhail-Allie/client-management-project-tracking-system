@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Reports | Web App Solutions</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="sidebar-link">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="clients.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a href="projects.html" class="sidebar-link">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a href="milestones.html" class="sidebar-link">
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a href="documents.html" class="sidebar-link">
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a href="invoices.html" class="sidebar-link">
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a href="reports.html" class="sidebar-link active">
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a href="notifications.html" class="sidebar-link">
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a href="users.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a href="profile.html" class="sidebar-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a href="../index.html" class="logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- REPORT CONTENT -->
+            <section
+                class="dashboard-content"
+                id="report-content"
+            >
+
+                <div class="page-heading-row">
+
+                    <div>
+                        <h1>Reports & Analytics</h1>
+
+                        <p>
+                            View organisational statistics and reports
+                        </p>
+                    </div>
+
+                    <div class="report-export-actions">
+
+                        <button
+                            class="report-export-button pdf"
+                            id="export-pdf-button"
+                            type="button"
+                        >
+                            Export PDF
+                        </button>
+
+                        <button
+                            class="report-export-button excel"
+                            id="export-excel-button"
+                            type="button"
+                        >
+                            Export Excel
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTERS -->
+                <section class="report-filter-panel">
+
+                    <div class="report-filter-group">
+
+                        <label for="report-type">
+                            Report Type
+                        </label>
+
+                        <select id="report-type">
+
+                            <option value="financial">
+                                Financial Report
+                            </option>
+
+                            <option value="projects">
+                                Project Progress Report
+                            </option>
+
+                            <option value="clients">
+                                Client Activity Report
+                            </option>
+
+                            <option value="milestones">
+                                Milestone Performance Report
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="report-filter-group">
+
+                        <label for="report-period">
+                            Date Range
+                        </label>
+
+                        <select id="report-period">
+
+                            <option value="6">
+                                Last 6 Months
+                            </option>
+
+                            <option value="3">
+                                Last 3 Months
+                            </option>
+
+                            <option value="12">
+                                Last 12 Months
+                            </option>
+
+                            <option value="year">
+                                Current Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        class="primary-action-button"
+                        id="generate-report-button"
+                        type="button"
+                    >
+                        Generate Report
+                    </button>
+
+                </section>
+
+
+                <!-- SUMMARY -->
+                <section class="report-summary-grid">
+
+                    <article class="report-summary-card">
+
+                        <div>
+                            <p>Total Revenue</p>
+
+                            <h2 id="report-revenue">
+                                R680,000
+                            </h2>
+                        </div>
+
+                        <span class="report-change positive">
+                            +12.5%
+                        </span>
+
+                    </article>
+
+
+                    <article class="report-summary-card">
+
+                        <div>
+                            <p>Total Projects</p>
+
+                            <h2 id="report-projects">
+                                208
+                            </h2>
+                        </div>
+
+                        <span class="report-change positive">
+                            +10.2%
+                        </span>
+
+                    </article>
+
+
+                    <article class="report-summary-card">
+
+                        <div>
+                            <p>Active Clients</p>
+
+                            <h2 id="report-clients">
+                                55
+                            </h2>
+                        </div>
+
+                        <span class="report-change positive">
+                            +8.2%
+                        </span>
+
+                    </article>
+
+
+                    <article class="report-summary-card">
+
+                        <div>
+                            <p>Completion Rate</p>
+
+                            <h2 id="report-completion">
+                                94.2%
+                            </h2>
+                        </div>
+
+                        <span class="report-change positive">
+                            +2.1%
+                        </span>
+
+                    </article>
+
+                </section>
+
+
+                <!-- CHART GRID -->
+                <section class="report-chart-grid">
+
+                    <!-- FINANCIAL OVERVIEW -->
+                    <article class="report-chart-card">
+
+                        <div class="report-card-heading">
+
+                            <div>
+                                <h2>Financial Overview</h2>
+
+                                <p>
+                                    Revenue and expenses by quarter
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="financial-chart">
+
+                            <div class="financial-chart-column">
+
+                                <div class="financial-bars">
+
+                                    <span
+                                        class="financial-bar revenue"
+                                        style="height: 62%;"
+                                    ></span>
+
+                                    <span
+                                        class="financial-bar expense"
+                                        style="height: 38%;"
+                                    ></span>
+
+                                </div>
+
+                                <strong>Q1</strong>
+
+                            </div>
+
+
+                            <div class="financial-chart-column">
+
+                                <div class="financial-bars">
+
+                                    <span
+                                        class="financial-bar revenue"
+                                        style="height: 74%;"
+                                    ></span>
+
+                                    <span
+                                        class="financial-bar expense"
+                                        style="height: 42%;"
+                                    ></span>
+
+                                </div>
+
+                                <strong>Q2</strong>
+
+                            </div>
+
+
+                            <div class="financial-chart-column">
+
+                                <div class="financial-bars">
+
+                                    <span
+                                        class="financial-bar revenue"
+                                        style="height: 82%;"
+                                    ></span>
+
+                                    <span
+                                        class="financial-bar expense"
+                                        style="height: 48%;"
+                                    ></span>
+
+                                </div>
+
+                                <strong>Q3</strong>
+
+                            </div>
+
+
+                            <div class="financial-chart-column">
+
+                                <div class="financial-bars">
+
+                                    <span
+                                        class="financial-bar revenue"
+                                        style="height: 92%;"
+                                    ></span>
+
+                                    <span
+                                        class="financial-bar expense"
+                                        style="height: 50%;"
+                                    ></span>
+
+                                </div>
+
+                                <strong>Q4</strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-legend">
+
+                            <span>
+                                <i class="legend-dot revenue"></i>
+                                Revenue
+                            </span>
+
+                            <span>
+                                <i class="legend-dot expense"></i>
+                                Expenses
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT PROGRESS -->
+                    <article class="report-chart-card">
+
+                        <div class="report-card-heading">
+
+                            <div>
+                                <h2>Project Progress</h2>
+
+                                <p>
+                                    Completed projects by month
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="report-project-chart">
+
+                            <div class="report-project-column">
+
+                                <div
+                                    class="report-project-bar"
+                                    style="height: 45%;"
+                                ></div>
+
+                                <span>Apr</span>
+
+                            </div>
+
+
+                            <div class="report-project-column">
+
+                                <div
+                                    class="report-project-bar"
+                                    style="height: 65%;"
+                                ></div>
+
+                                <span>May</span>
+
+                            </div>
+
+
+                            <div class="report-project-column">
+
+                                <div
+                                    class="report-project-bar"
+                                    style="height: 55%;"
+                                ></div>
+
+                                <span>Jun</span>
+
+                            </div>
+
+
+                            <div class="report-project-column">
+
+                                <div
+                                    class="report-project-bar"
+                                    style="height: 82%;"
+                                ></div>
+
+                                <span>Jul</span>
+
+                            </div>
+
+
+                            <div class="report-project-column">
+
+                                <div
+                                    class="report-project-bar"
+                                    style="height: 75%;"
+                                ></div>
+
+                                <span>Aug</span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- CLIENT DISTRIBUTION -->
+                    <article class="report-chart-card">
+
+                        <div class="report-card-heading">
+
+                            <div>
+                                <h2>Client Distribution</h2>
+
+                                <p>
+                                    Distribution of active clients
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="distribution-layout">
+
+                            <div class="distribution-chart"></div>
+
+
+                            <div class="distribution-legend">
+
+                                <div>
+                                    <span class="distribution-dot blue"></span>
+                                    Technology
+                                    <strong>40%</strong>
+                                </div>
+
+                                <div>
+                                    <span class="distribution-dot green"></span>
+                                    Retail
+                                    <strong>25%</strong>
+                                </div>
+
+                                <div>
+                                    <span class="distribution-dot orange"></span>
+                                    Services
+                                    <strong>20%</strong>
+                                </div>
+
+                                <div>
+                                    <span class="distribution-dot purple"></span>
+                                    Other
+                                    <strong>15%</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT STATUS -->
+                    <article class="report-chart-card">
+
+                        <div class="report-card-heading">
+
+                            <div>
+                                <h2>Project Status Distribution</h2>
+
+                                <p>
+                                    Current project status overview
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="status-report-list">
+
+                            <div class="status-report-row">
+
+                                <div>
+                                    <span class="status-report-dot completed"></span>
+                                    Completed
+                                </div>
+
+                                <strong>156</strong>
+
+                            </div>
+
+
+                            <div class="status-report-row">
+
+                                <div>
+                                    <span class="status-report-dot progress"></span>
+                                    In Progress
+                                </div>
+
+                                <strong>32</strong>
+
+                            </div>
+
+
+                            <div class="status-report-row">
+
+                                <div>
+                                    <span class="status-report-dot planning"></span>
+                                    Planning
+                                </div>
+
+                                <strong>15</strong>
+
+                            </div>
+
+
+                            <div class="status-report-row">
+
+                                <div>
+                                    <span class="status-report-dot hold"></span>
+                                    On Hold
+                                </div>
+
+                                <strong>5</strong>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- REPORT SUMMARY -->
+                <section class="details-card report-final-summary">
+
+                    <div class="details-card-heading">
+
+                        <div>
+                            <h2>Report Summary</h2>
+
+                            <p id="current-report-title">
+                                Financial Report - Last 6 Months
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="report-summary-list">
+
+                        <div class="report-summary-row">
+
+                            <span>
+                                Total Projects Completed
+                            </span>
+
+                            <strong>156</strong>
+
+                        </div>
+
+
+                        <div class="report-summary-row">
+
+                            <span>
+                                Active Projects
+                            </span>
+
+                            <strong>32</strong>
+
+                        </div>
+
+
+                        <div class="report-summary-row">
+
+                            <span>
+                                Total Clients
+                            </span>
+
+                            <strong>55</strong>
+
+                        </div>
+
+
+                        <div class="report-summary-row">
+
+                            <span>
+                                Average Project Duration
+                            </span>
+
+                            <strong>4.2 months</strong>
+
+                        </div>
+
+
+                        <div class="report-summary-row">
+
+                            <span>
+                                Client Satisfaction Rate
+                            </span>
+
+                            <strong>94.2%</strong>
+
+                        </div>
+
+
+                        <div class="report-summary-row">
+
+                            <span>
+                                On-Time Delivery Rate
+                            </span>
+
+                            <strong>87.5%</strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>

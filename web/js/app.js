@@ -2780,3 +2780,333 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+
+
+/* =========================================================
+   REPORTS & ANALYTICS
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const reportType =
+        document.getElementById("report-type");
+
+    const reportPeriod =
+        document.getElementById("report-period");
+
+    const generateButton =
+        document.getElementById("generate-report-button");
+
+    const reportTitle =
+        document.getElementById("current-report-title");
+
+
+    if (
+        !reportType ||
+        !reportPeriod ||
+        !generateButton ||
+        !reportTitle
+    ) {
+        return;
+    }
+
+
+    const reportNames = {
+
+        financial:
+            "Financial Report",
+
+        projects:
+            "Project Progress Report",
+
+        clients:
+            "Client Activity Report",
+
+        milestones:
+            "Milestone Performance Report"
+
+    };
+
+
+    const periodNames = {
+
+        "3":
+            "Last 3 Months",
+
+        "6":
+            "Last 6 Months",
+
+        "12":
+            "Last 12 Months",
+
+        year:
+            "Current Year"
+
+    };
+
+
+    generateButton.addEventListener(
+        "click",
+        () => {
+
+            const selectedReport =
+                reportNames[
+                    reportType.value
+                ];
+
+
+            const selectedPeriod =
+                periodNames[
+                    reportPeriod.value
+                ];
+
+
+            reportTitle.textContent =
+                `${selectedReport} - ${selectedPeriod}`;
+
+        }
+    );
+
+});
+
+
+
+/* =========================================================
+   EXPORT REPORT AS PDF
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const pdfButton =
+        document.getElementById("export-pdf-button");
+
+
+    if (!pdfButton) {
+        return;
+    }
+
+
+    pdfButton.addEventListener(
+        "click",
+        () => {
+
+            window.print();
+
+        }
+    );
+
+});
+
+
+
+
+
+/* =========================================================
+   EXPORT REPORT FOR EXCEL
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const excelButton =
+        document.getElementById("export-excel-button");
+
+
+    if (!excelButton) {
+        return;
+    }
+
+
+    excelButton.addEventListener(
+        "click",
+        () => {
+
+            const reportType =
+                document.getElementById(
+                    "report-type"
+                ).selectedOptions[0].text;
+
+
+            const reportPeriod =
+                document.getElementById(
+                    "report-period"
+                ).selectedOptions[0].text;
+
+
+            const revenue =
+                document.getElementById(
+                    "report-revenue"
+                ).textContent.trim();
+
+
+            const projects =
+                document.getElementById(
+                    "report-projects"
+                ).textContent.trim();
+
+
+            const clients =
+                document.getElementById(
+                    "report-clients"
+                ).textContent.trim();
+
+
+            const completion =
+                document.getElementById(
+                    "report-completion"
+                ).textContent.trim();
+
+
+            const csvRows = [
+
+                [
+                    "Web App Solutions",
+                    "Reports & Analytics"
+                ],
+
+                [
+                    "Report Type",
+                    reportType
+                ],
+
+                [
+                    "Date Range",
+                    reportPeriod
+                ],
+
+                [],
+
+                [
+                    "Metric",
+                    "Value"
+                ],
+
+                [
+                    "Total Revenue",
+                    revenue
+                ],
+
+                [
+                    "Total Projects",
+                    projects
+                ],
+
+                [
+                    "Active Clients",
+                    clients
+                ],
+
+                [
+                    "Completion Rate",
+                    completion
+                ],
+
+                [],
+
+                [
+                    "Report Summary",
+                    "Value"
+                ],
+
+                [
+                    "Total Projects Completed",
+                    "156"
+                ],
+
+                [
+                    "Active Projects",
+                    "32"
+                ],
+
+                [
+                    "Total Clients",
+                    "55"
+                ],
+
+                [
+                    "Average Project Duration",
+                    "4.2 months"
+                ],
+
+                [
+                    "Client Satisfaction Rate",
+                    "94.2%"
+                ],
+
+                [
+                    "On-Time Delivery Rate",
+                    "87.5%"
+                ]
+
+            ];
+
+
+            const csvContent =
+                csvRows
+                    .map(
+                        (row) =>
+                            row
+                                .map(
+                                    (value) =>
+                                        `"${String(value)
+                                            .replaceAll(
+                                                '"',
+                                                '""'
+                                            )}"`
+                                )
+                                .join(",")
+                    )
+                    .join("\n");
+
+
+            const blob =
+                new Blob(
+                    [csvContent],
+                    {
+                        type:
+                            "text/csv;charset=utf-8;"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.href =
+                url;
+
+
+            link.download =
+                "web-app-solutions-report.csv";
+
+
+            document.body.appendChild(
+                link
+            );
+
+
+            link.click();
+
+
+            document.body.removeChild(
+                link
+            );
+
+
+            URL.revokeObjectURL(
+                url
+            );
+
+        }
+    );
+
+});
