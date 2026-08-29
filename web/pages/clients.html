@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clients | Web App Solutions</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="sidebar-link">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="clients.html" class="sidebar-link active">
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a href="projects.html" class="sidebar-link">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a href="milestones.html" class="sidebar-link">
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a href="documents.html" class="sidebar-link">
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a href="invoices.html" class="sidebar-link">
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a href="reports.html" class="sidebar-link">
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a href="notifications.html" class="sidebar-link">
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a href="users.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a href="profile.html" class="sidebar-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a href="../index.html" class="logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CLIENT CONTENT -->
+            <section class="dashboard-content">
+
+                <div class="page-heading-row">
+
+                    <div>
+                        <h1>Client Management</h1>
+                        <p>Manage your client database</p>
+                    </div>
+
+                    <button
+                        class="primary-action-button"
+                        id="open-client-modal"
+                        type="button"
+                    >
+                        + Add Client
+                    </button>
+
+                </div>
+
+
+                <!-- CLIENT PANEL -->
+                <section class="management-panel">
+
+                    <div class="management-toolbar">
+
+                        <div class="management-search">
+
+                            <input
+                                type="search"
+                                id="client-search"
+                                placeholder="Search clients..."
+                                aria-label="Search clients"
+                            >
+
+                        </div>
+
+                        <select
+                            id="client-status-filter"
+                            class="management-filter"
+                            aria-label="Filter clients by status"
+                        >
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Client ID</th>
+                                    <th>Client Name</th>
+                                    <th>Company</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Registration Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="client-table-body">
+
+                                <tr data-status="active">
+                                    <td>CL001</td>
+                                    <td>John Anderson</td>
+                                    <td>TechCorp Inc.</td>
+                                    <td>john@techcorp.com</td>
+                                    <td>+27 82 123 4567</td>
+                                    <td>2025-01-15</td>
+                                    <td>
+                                        <span class="status-badge active">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="client-details.html"
+                                            class="table-action view"
+                                        >
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="active">
+                                    <td>CL002</td>
+                                    <td>Sarah Williams</td>
+                                    <td>Digital Solutions Ltd.</td>
+                                    <td>sarah@digitalsolutions.com</td>
+                                    <td>+27 83 234 5678</td>
+                                    <td>2025-02-21</td>
+                                    <td>
+                                        <span class="status-badge active">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="client-details.html"
+                                            class="table-action view"
+                                        >
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="active">
+                                    <td>CL003</td>
+                                    <td>Michael Chen</td>
+                                    <td>Innovatech Labs</td>
+                                    <td>michael@innovatetech.com</td>
+                                    <td>+27 84 345 6789</td>
+                                    <td>2025-03-10</td>
+                                    <td>
+                                        <span class="status-badge active">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="client-details.html"
+                                            class="table-action view"
+                                        >
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="inactive">
+                                    <td>CL004</td>
+                                    <td>Emily Davis</td>
+                                    <td>StartupHub</td>
+                                    <td>emily@startuphub.com</td>
+                                    <td>+27 85 456 7890</td>
+                                    <td>2024-12-05</td>
+                                    <td>
+                                        <span class="status-badge inactive">
+                                            Inactive
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="client-details.html"
+                                            class="table-action view"
+                                        >
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                        <p
+                            id="client-empty-message"
+                            class="empty-table-message"
+                        >
+                            No clients found.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- ADD CLIENT MODAL -->
+    <div
+        class="modal-overlay"
+        id="client-modal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="client-modal-title"
+        >
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="client-modal-title">Add Client</h2>
+                    <p>Enter the new client's information.</p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    id="close-client-modal"
+                    type="button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <form id="add-client-form">
+
+                <div class="modal-form-grid">
+
+                    <div class="form-group">
+                        <label for="new-client-name">
+                            Client Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="new-client-name"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-client-company">
+                            Company
+                        </label>
+
+                        <input
+                            type="text"
+                            id="new-client-company"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-client-email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="new-client-email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-client-phone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="new-client-phone"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-client-status">
+                            Status
+                        </label>
+
+                        <select id="new-client-status">
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="inactive">
+                                Inactive
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-actions">
+
+                    <button
+                        class="secondary-button"
+                        id="cancel-client-modal"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-action-button"
+                        type="submit"
+                    >
+                        Add Client
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>
