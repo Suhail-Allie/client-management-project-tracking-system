@@ -35,3 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const menuButton =
+        document.getElementById("mobile-menu-button");
+
+    const sidebar =
+        document.querySelector(".sidebar");
+
+    if (!menuButton || !sidebar) {
+        return;
+    }
+
+    menuButton.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+    });
+
+});

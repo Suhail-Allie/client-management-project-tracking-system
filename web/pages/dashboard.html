@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | Web App Solutions</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="dashboard.html"
+                    class="sidebar-link active"
+                >
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a
+                    href="clients.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a
+                    href="projects.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a
+                    href="milestones.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a
+                    href="documents.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a
+                    href="invoices.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a
+                    href="reports.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a
+                    href="notifications.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a
+                    href="users.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a
+                href="../index.html"
+                class="logout-link"
+            >
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- DASHBOARD CONTENT -->
+            <section class="dashboard-content">
+
+                <div class="dashboard-heading">
+
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Welcome back, Suhail.</p>
+                    </div>
+
+                </div>
+
+
+                <!-- SUMMARY CARDS -->
+                <section class="summary-grid">
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-header">
+                            <span class="summary-icon blue">
+                                ♙
+                            </span>
+
+                            <span class="summary-change positive">
+                                +12%
+                            </span>
+                        </div>
+
+                        <p>Total Clients</p>
+
+                        <h2>48</h2>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-header">
+                            <span class="summary-icon green">
+                                ▣
+                            </span>
+
+                            <span class="summary-change positive">
+                                +8%
+                            </span>
+                        </div>
+
+                        <p>Active Projects</p>
+
+                        <h2>32</h2>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-header">
+                            <span class="summary-icon purple">
+                                ✓
+                            </span>
+
+                            <span class="summary-change positive">
+                                +18%
+                            </span>
+                        </div>
+
+                        <p>Completed Projects</p>
+
+                        <h2>156</h2>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-header">
+                            <span class="summary-icon orange">
+                                R
+                            </span>
+
+                            <span class="summary-change negative">
+                                -5%
+                            </span>
+                        </div>
+
+                        <p>Pending Invoices</p>
+
+                        <h2>R24,500</h2>
+
+                    </article>
+
+                </section>
+
+
+                <!-- PROJECT OVERVIEW -->
+                <section class="dashboard-panel project-overview">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <h2>Project Overview</h2>
+                            <p>Projects created over the last five months</p>
+                        </div>
+
+                    </div>
+
+                    <div class="chart">
+
+                        <div class="chart-y-axis">
+                            <span>30</span>
+                            <span>20</span>
+                            <span>10</span>
+                            <span>0</span>
+                        </div>
+
+                        <div class="chart-content">
+
+                            <div class="chart-bars">
+
+                                <div class="chart-column">
+                                    <div
+                                        class="chart-bar"
+                                        style="height: 40%;"
+                                    ></div>
+                                    <span>Apr</span>
+                                </div>
+
+                                <div class="chart-column">
+                                    <div
+                                        class="chart-bar"
+                                        style="height: 62%;"
+                                    ></div>
+                                    <span>May</span>
+                                </div>
+
+                                <div class="chart-column">
+                                    <div
+                                        class="chart-bar"
+                                        style="height: 48%;"
+                                    ></div>
+                                    <span>Jun</span>
+                                </div>
+
+                                <div class="chart-column">
+                                    <div
+                                        class="chart-bar"
+                                        style="height: 72%;"
+                                    ></div>
+                                    <span>Jul</span>
+                                </div>
+
+                                <div class="chart-column">
+                                    <div
+                                        class="chart-bar"
+                                        style="height: 88%;"
+                                    ></div>
+                                    <span>Aug</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- LOWER PANELS -->
+                <section class="dashboard-lower-grid">
+
+                    <!-- RECENT ACTIVITY -->
+                    <article class="dashboard-panel">
+
+                        <div class="panel-heading">
+                            <h2>Recent Activity</h2>
+                        </div>
+
+                        <div class="activity-list">
+
+                            <div class="activity-item">
+
+                                <span class="activity-dot"></span>
+
+                                <div>
+                                    <strong>
+                                        New client added
+                                    </strong>
+
+                                    <p>
+                                        TechCorp Inc. was added to
+                                        the system.
+                                    </p>
+
+                                    <span>10 minutes ago</span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <span class="activity-dot"></span>
+
+                                <div>
+                                    <strong>
+                                        Project milestone completed
+                                    </strong>
+
+                                    <p>
+                                        E-commerce Platform -
+                                        Phase 2 completed.
+                                    </p>
+
+                                    <span>1 hour ago</span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <span class="activity-dot"></span>
+
+                                <div>
+                                    <strong>
+                                        Invoice generated
+                                    </strong>
+
+                                    <p>
+                                        Invoice INV-1005 was
+                                        generated.
+                                    </p>
+
+                                    <span>2 hours ago</span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <span class="activity-dot"></span>
+
+                                <div>
+                                    <strong>
+                                        Document uploaded
+                                    </strong>
+
+                                    <p>
+                                        Project requirements document
+                                        uploaded.
+                                    </p>
+
+                                    <span>3 hours ago</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- UPCOMING DEADLINES -->
+                    <article class="dashboard-panel">
+
+                        <div class="panel-heading">
+                            <h2>Upcoming Deadlines</h2>
+                        </div>
+
+                        <div class="deadline-list">
+
+                            <div class="deadline-item">
+
+                                <div>
+                                    <strong>
+                                        E-commerce Platform
+                                    </strong>
+
+                                    <p>Payment Integration</p>
+
+                                    <span>
+                                        Due 01 Sep 2026
+                                    </span>
+                                </div>
+
+                                <span class="deadline-badge urgent">
+                                    3 days
+                                </span>
+
+                            </div>
+
+
+                            <div class="deadline-item">
+
+                                <div>
+                                    <strong>
+                                        Mobile App Development
+                                    </strong>
+
+                                    <p>UI Design Review</p>
+
+                                    <span>
+                                        Due 03 Sep 2026
+                                    </span>
+                                </div>
+
+                                <span class="deadline-badge">
+                                    5 days
+                                </span>
+
+                            </div>
+
+
+                            <div class="deadline-item">
+
+                                <div>
+                                    <strong>CRM System</strong>
+
+                                    <p>Database Migration</p>
+
+                                    <span>
+                                        Due 06 Sep 2026
+                                    </span>
+                                </div>
+
+                                <span class="deadline-badge">
+                                    8 days
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>
