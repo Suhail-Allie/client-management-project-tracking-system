@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Documents | Web App Solutions</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="dashboard.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a
+                    href="clients.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a
+                    href="projects.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a
+                    href="milestones.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a
+                    href="documents.html"
+                    class="sidebar-link active"
+                >
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a
+                    href="invoices.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a
+                    href="reports.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a
+                    href="notifications.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a
+                    href="users.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="sidebar-link"
+                >
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a
+                href="../index.html"
+                class="logout-link"
+            >
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- DOCUMENT CONTENT -->
+            <section class="dashboard-content">
+
+                <div class="page-heading-row">
+
+                    <div>
+                        <h1>Document Management</h1>
+
+                        <p>
+                            Upload and manage project documents
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- UPLOAD SECTION -->
+                <section class="document-upload-panel">
+
+                    <div
+                        class="document-drop-zone"
+                        id="document-drop-zone"
+                    >
+
+                        <div class="upload-icon">
+                            ↑
+                        </div>
+
+                        <h2>
+                            Drag and drop files here
+                        </h2>
+
+                        <p>
+                            or
+                        </p>
+
+                        <button
+                            type="button"
+                            class="primary-action-button"
+                            id="browse-files-button"
+                        >
+                            Browse Files
+                        </button>
+
+                        <input
+                            type="file"
+                            id="document-file-input"
+                            multiple
+                            hidden
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.png,.jpg,.jpeg"
+                        >
+
+                        <span class="supported-files">
+                            Supported formats: PDF, DOC, DOCX,
+                            XLS, XLSX, ZIP, PNG, JPG
+                        </span>
+
+                    </div>
+
+                    <p
+                        class="upload-message"
+                        id="upload-message"
+                    ></p>
+
+                </section>
+
+
+                <!-- DOCUMENT LIST -->
+                <section class="management-panel document-list-panel">
+
+                    <div class="document-table-heading">
+
+                        <div>
+                            <h2>Uploaded Documents</h2>
+
+                            <p>
+                                Files currently linked to projects
+                            </p>
+                        </div>
+
+                        <div class="document-search">
+
+                            <input
+                                type="search"
+                                id="document-search"
+                                placeholder="Search documents..."
+                                aria-label="Search documents"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Document ID</th>
+                                    <th>File Name</th>
+                                    <th>Project</th>
+                                    <th>Type</th>
+                                    <th>Size</th>
+                                    <th>Upload Date</th>
+                                    <th>Uploaded By</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="document-table-body">
+
+                                <tr>
+
+                                    <td>DOC001</td>
+
+                                    <td>
+                                        <div class="document-name-cell">
+                                            <span class="document-file-icon">
+                                                PDF
+                                            </span>
+
+                                            <span>
+                                                Project_Requirements.pdf
+                                            </span>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        E-commerce Platform
+                                    </td>
+
+                                    <td>PDF</td>
+
+                                    <td>2.4 MB</td>
+
+                                    <td>2026-06-18</td>
+
+                                    <td>John Anderson</td>
+
+                                    <td>
+                                        <div class="document-actions">
+
+                                            <button
+                                                class="document-action download"
+                                                type="button"
+                                            >
+                                                Download
+                                            </button>
+
+                                            <button
+                                                class="document-action delete"
+                                                type="button"
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>DOC002</td>
+
+                                    <td>
+                                        <div class="document-name-cell">
+
+                                            <span class="document-file-icon">
+                                                SQL
+                                            </span>
+
+                                            <span>
+                                                Database_Schema.sql
+                                            </span>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        CRM System
+                                    </td>
+
+                                    <td>SQL</td>
+
+                                    <td>15 KB</td>
+
+                                    <td>2026-07-12</td>
+
+                                    <td>Mike Developer</td>
+
+                                    <td>
+
+                                        <div class="document-actions">
+
+                                            <button
+                                                class="document-action download"
+                                                type="button"
+                                            >
+                                                Download
+                                            </button>
+
+                                            <button
+                                                class="document-action delete"
+                                                type="button"
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>DOC003</td>
+
+                                    <td>
+
+                                        <div class="document-name-cell">
+
+                                            <span class="document-file-icon">
+                                                ZIP
+                                            </span>
+
+                                            <span>
+                                                UI_Mockups.zip
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        Mobile App Development
+                                    </td>
+
+                                    <td>ZIP</td>
+
+                                    <td>8.7 MB</td>
+
+                                    <td>2026-07-20</td>
+
+                                    <td>Sarah Developer</td>
+
+                                    <td>
+
+                                        <div class="document-actions">
+
+                                            <button
+                                                class="document-action download"
+                                                type="button"
+                                            >
+                                                Download
+                                            </button>
+
+                                            <button
+                                                class="document-action delete"
+                                                type="button"
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>DOC004</td>
+
+                                    <td>
+
+                                        <div class="document-name-cell">
+
+                                            <span class="document-file-icon">
+                                                DOCX
+                                            </span>
+
+                                            <span>
+                                                Meeting_Notes.docx
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        Website Redesign
+                                    </td>
+
+                                    <td>DOCX</td>
+
+                                    <td>44 KB</td>
+
+                                    <td>2026-08-05</td>
+
+                                    <td>Emily Developer</td>
+
+                                    <td>
+
+                                        <div class="document-actions">
+
+                                            <button
+                                                class="document-action download"
+                                                type="button"
+                                            >
+                                                Download
+                                            </button>
+
+                                            <button
+                                                class="document-action delete"
+                                                type="button"
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                        <p
+                            class="empty-table-message"
+                            id="document-empty-message"
+                        >
+                            No documents found.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>

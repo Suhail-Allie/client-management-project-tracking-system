@@ -1842,3 +1842,489 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+
+
+
+
+/* =========================================================
+   DOCUMENT MANAGEMENT
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const browseButton =
+        document.getElementById(
+            "browse-files-button"
+        );
+
+    const fileInput =
+        document.getElementById(
+            "document-file-input"
+        );
+
+    const dropZone =
+        document.getElementById(
+            "document-drop-zone"
+        );
+
+    const tableBody =
+        document.getElementById(
+            "document-table-body"
+        );
+
+    const uploadMessage =
+        document.getElementById(
+            "upload-message"
+        );
+
+
+    if (
+        !browseButton ||
+        !fileInput ||
+        !dropZone ||
+        !tableBody
+    ) {
+        return;
+    }
+
+
+    const allowedExtensions = [
+        "pdf",
+        "doc",
+        "docx",
+        "xls",
+        "xlsx",
+        "zip",
+        "png",
+        "jpg",
+        "jpeg"
+    ];
+
+
+    browseButton.addEventListener(
+        "click",
+        () => {
+
+            fileInput.click();
+
+        }
+    );
+
+
+    fileInput.addEventListener(
+        "change",
+        () => {
+
+            handleFiles(
+                Array.from(fileInput.files)
+            );
+
+            fileInput.value = "";
+
+        }
+    );
+
+
+    /* =====================================================
+       DRAG AND DROP
+    ====================================================== */
+
+    dropZone.addEventListener(
+        "dragover",
+        (event) => {
+
+            event.preventDefault();
+
+            dropZone.classList.add(
+                "drag-active"
+            );
+
+        }
+    );
+
+
+    dropZone.addEventListener(
+        "dragleave",
+        () => {
+
+            dropZone.classList.remove(
+                "drag-active"
+            );
+
+        }
+    );
+
+
+    dropZone.addEventListener(
+        "drop",
+        (event) => {
+
+            event.preventDefault();
+
+            dropZone.classList.remove(
+                "drag-active"
+            );
+
+
+            const files =
+                Array.from(
+                    event.dataTransfer.files
+                );
+
+
+            handleFiles(files);
+
+        }
+    );
+
+
+    /* =====================================================
+       FILE HANDLING
+    ====================================================== */
+
+    function handleFiles(files) {
+
+        uploadMessage.className =
+            "upload-message";
+
+        uploadMessage.textContent =
+            "";
+
+
+        if (files.length === 0) {
+            return;
+        }
+
+
+        const invalidFiles = [];
+
+
+        files.forEach((file) => {
+
+            const extension =
+                getFileExtension(
+                    file.name
+                );
+
+
+            if (
+                !allowedExtensions.includes(
+                    extension
+                )
+            ) {
+
+                invalidFiles.push(
+                    file.name
+                );
+
+                return;
+
+            }
+
+
+            addDocumentToTable(
+                file,
+                extension
+            );
+
+        });
+
+
+        if (invalidFiles.length > 0) {
+
+            uploadMessage.textContent =
+                `Unsupported file type: ${invalidFiles.join(", ")}`;
+
+            uploadMessage.classList.add(
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        uploadMessage.textContent =
+            files.length === 1
+                ? "File added successfully."
+                : `${files.length} files added successfully.`;
+
+
+        uploadMessage.classList.add(
+            "success"
+        );
+
+    }
+
+
+    function getFileExtension(fileName) {
+
+        const parts =
+            fileName.split(".");
+
+
+        if (parts.length < 2) {
+            return "";
+        }
+
+
+        return parts
+            .pop()
+            .toLowerCase();
+
+    }
+
+
+    function formatFileSize(bytes) {
+
+        if (bytes === 0) {
+            return "0 KB";
+        }
+
+
+        if (bytes < 1024 * 1024) {
+
+            return `${(
+                bytes / 1024
+            ).toFixed(1)} KB`;
+
+        }
+
+
+        return `${(
+            bytes /
+            (1024 * 1024)
+        ).toFixed(1)} MB`;
+
+    }
+
+
+    function addDocumentToTable(
+        file,
+        extension
+    ) {
+
+        const existingRows =
+            tableBody.querySelectorAll(
+                "tr"
+            ).length;
+
+
+        const documentId =
+            "DOC" +
+            String(
+                existingRows + 1
+            ).padStart(
+                3,
+                "0"
+            );
+
+
+        const today =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+        const row =
+            document.createElement(
+                "tr"
+            );
+
+
+        row.innerHTML = `
+            <td>${documentId}</td>
+
+            <td>
+
+                <div class="document-name-cell">
+
+                    <span class="document-file-icon">
+                        ${extension.toUpperCase()}
+                    </span>
+
+                    <span>
+                        ${file.name}
+                    </span>
+
+                </div>
+
+            </td>
+
+            <td>
+                Unassigned
+            </td>
+
+            <td>
+                ${extension.toUpperCase()}
+            </td>
+
+            <td>
+                ${formatFileSize(file.size)}
+            </td>
+
+            <td>
+                ${today}
+            </td>
+
+            <td>
+                Suhail
+            </td>
+
+            <td>
+
+                <div class="document-actions">
+
+                    <button
+                        class="document-action download"
+                        type="button"
+                    >
+                        Download
+                    </button>
+
+                    <button
+                        class="document-action delete"
+                        type="button"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </td>
+        `;
+
+
+        tableBody.appendChild(
+            row
+        );
+
+    }
+
+});
+
+
+
+
+/* =========================================================
+   DOCUMENT SEARCH AND DELETE
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const searchInput =
+        document.getElementById(
+            "document-search"
+        );
+
+    const tableBody =
+        document.getElementById(
+            "document-table-body"
+        );
+
+    const emptyMessage =
+        document.getElementById(
+            "document-empty-message"
+        );
+
+
+    if (!searchInput || !tableBody) {
+        return;
+    }
+
+
+    function filterDocuments() {
+
+        const searchValue =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        const rows =
+            tableBody.querySelectorAll(
+                "tr"
+            );
+
+
+        let visibleRows = 0;
+
+
+        rows.forEach((row) => {
+
+            const rowText =
+                row.textContent
+                    .toLowerCase();
+
+
+            if (
+                rowText.includes(
+                    searchValue
+                )
+            ) {
+
+                row.style.display = "";
+
+                visibleRows++;
+
+            } else {
+
+                row.style.display =
+                    "none";
+
+            }
+
+        });
+
+
+        if (emptyMessage) {
+
+            emptyMessage.style.display =
+                visibleRows === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterDocuments
+    );
+
+
+    tableBody.addEventListener(
+        "click",
+        (event) => {
+
+            const deleteButton =
+                event.target.closest(
+                    ".document-action.delete"
+                );
+
+
+            if (!deleteButton) {
+                return;
+            }
+
+
+            const row =
+                deleteButton.closest(
+                    "tr"
+                );
+
+
+            if (row) {
+                row.remove();
+            }
+
+
+            filterDocuments();
+
+        }
+    );
+
+});
