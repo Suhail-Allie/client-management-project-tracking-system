@@ -3513,3 +3513,701 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNotificationCounts();
 
 });
+
+
+
+
+
+/* =========================================================
+   USER MANAGEMENT
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const tableBody =
+        document.getElementById("user-table-body");
+
+    const searchInput =
+        document.getElementById("user-search");
+
+    const roleFilter =
+        document.getElementById("user-role-filter");
+
+    const emptyMessage =
+        document.getElementById("user-empty-message");
+
+    const modal =
+        document.getElementById("user-modal");
+
+    const openButton =
+        document.getElementById("open-user-modal");
+
+    const closeButton =
+        document.getElementById("close-user-modal");
+
+    const cancelButton =
+        document.getElementById("cancel-user-modal");
+
+    const form =
+        document.getElementById("user-form");
+
+
+    if (
+        !tableBody ||
+        !searchInput ||
+        !roleFilter ||
+        !modal ||
+        !form
+    ) {
+        return;
+    }
+
+
+    let editingRow =
+        null;
+
+
+    /* =====================================================
+       ROLE LABEL
+    ====================================================== */
+
+    function getRoleLabel(role) {
+
+        if (role === "administrator") {
+            return "Administrator";
+        }
+
+        if (role === "developer") {
+            return "Developer";
+        }
+
+        if (role === "finance") {
+            return "Finance Manager";
+        }
+
+        return "Client";
+
+    }
+
+
+    /* =====================================================
+       USER COUNTS
+    ====================================================== */
+
+    function updateUserCounts() {
+
+        const rows =
+            tableBody.querySelectorAll("tr");
+
+
+        let administrators =
+            0;
+
+        let staff =
+            0;
+
+        let clients =
+            0;
+
+
+        rows.forEach((row) => {
+
+            const role =
+                row.dataset.role;
+
+
+            if (role === "administrator") {
+                administrators++;
+            }
+
+
+            if (
+                role === "developer" ||
+                role === "finance"
+            ) {
+                staff++;
+            }
+
+
+            if (role === "client") {
+                clients++;
+            }
+
+        });
+
+
+        document.getElementById(
+            "total-users-count"
+        ).textContent =
+            rows.length;
+
+
+        document.getElementById(
+            "administrator-count"
+        ).textContent =
+            administrators;
+
+
+        document.getElementById(
+            "staff-users-count"
+        ).textContent =
+            staff;
+
+
+        document.getElementById(
+            "client-users-count"
+        ).textContent =
+            clients;
+
+    }
+
+
+    /* =====================================================
+       SEARCH AND FILTER
+    ====================================================== */
+
+    function filterUsers() {
+
+        const searchValue =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        const roleValue =
+            roleFilter.value;
+
+
+        const rows =
+            tableBody.querySelectorAll("tr");
+
+
+        let visibleRows =
+            0;
+
+
+        rows.forEach((row) => {
+
+            const rowText =
+                row.textContent
+                    .toLowerCase();
+
+
+            const rowRole =
+                row.dataset.role;
+
+
+            const matchesSearch =
+                rowText.includes(
+                    searchValue
+                );
+
+
+            const matchesRole =
+                roleValue === "all" ||
+                roleValue === rowRole;
+
+
+            if (
+                matchesSearch &&
+                matchesRole
+            ) {
+
+                row.style.display = "";
+
+                visibleRows++;
+
+            } else {
+
+                row.style.display =
+                    "none";
+
+            }
+
+        });
+
+
+        if (emptyMessage) {
+
+            emptyMessage.style.display =
+                visibleRows === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterUsers
+    );
+
+
+    roleFilter.addEventListener(
+        "change",
+        filterUsers
+    );
+
+
+    /* =====================================================
+       MODAL
+    ====================================================== */
+
+    function openAddUserModal() {
+
+        editingRow =
+            null;
+
+
+        document.getElementById(
+            "user-modal-title"
+        ).textContent =
+            "Add User";
+
+
+        document.getElementById(
+            "user-modal-description"
+        ).textContent =
+            "Enter the new user's information.";
+
+
+        document.getElementById(
+            "save-user-button"
+        ).textContent =
+            "Add User";
+
+
+        form.reset();
+
+
+        document.getElementById(
+            "user-status"
+        ).value =
+            "active";
+
+
+        modal.classList.add(
+            "open"
+        );
+
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+
+
+    function closeUserModal() {
+
+        modal.classList.remove(
+            "open"
+        );
+
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+
+        form.reset();
+
+
+        editingRow =
+            null;
+
+    }
+
+
+    openButton.addEventListener(
+        "click",
+        openAddUserModal
+    );
+
+
+    closeButton.addEventListener(
+        "click",
+        closeUserModal
+    );
+
+
+    cancelButton.addEventListener(
+        "click",
+        closeUserModal
+    );
+
+
+    modal.addEventListener(
+        "click",
+        (event) => {
+
+            if (event.target === modal) {
+
+                closeUserModal();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       TABLE ACTIONS
+    ====================================================== */
+
+    tableBody.addEventListener(
+        "click",
+        (event) => {
+
+            const editButton =
+                event.target.closest(
+                    ".user-action.edit"
+                );
+
+
+            const statusButton =
+                event.target.closest(
+                    ".user-action.status"
+                );
+
+
+            /* EDIT */
+            if (editButton) {
+
+                editingRow =
+                    editButton.closest(
+                        "tr"
+                    );
+
+
+                const cells =
+                    editingRow.querySelectorAll(
+                        "td"
+                    );
+
+
+                document.getElementById(
+                    "user-name"
+                ).value =
+                    cells[1]
+                        .textContent
+                        .trim();
+
+
+                document.getElementById(
+                    "user-email"
+                ).value =
+                    cells[2]
+                        .textContent
+                        .trim();
+
+
+                document.getElementById(
+                    "user-role"
+                ).value =
+                    editingRow.dataset.role;
+
+
+                document.getElementById(
+                    "user-status"
+                ).value =
+                    editingRow.dataset.status;
+
+
+                document.getElementById(
+                    "user-modal-title"
+                ).textContent =
+                    "Edit User";
+
+
+                document.getElementById(
+                    "user-modal-description"
+                ).textContent =
+                    "Update the user's information and role.";
+
+
+                document.getElementById(
+                    "save-user-button"
+                ).textContent =
+                    "Save Changes";
+
+
+                modal.classList.add(
+                    "open"
+                );
+
+
+                modal.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+            }
+
+
+            /* ENABLE / DISABLE */
+            if (statusButton) {
+
+                const row =
+                    statusButton.closest(
+                        "tr"
+                    );
+
+
+                const statusBadge =
+                    row.querySelector(
+                        ".status-badge"
+                    );
+
+
+                const isActive =
+                    row.dataset.status ===
+                    "active";
+
+
+                if (isActive) {
+
+                    row.dataset.status =
+                        "inactive";
+
+
+                    statusBadge.textContent =
+                        "Inactive";
+
+
+                    statusBadge.className =
+                        "status-badge inactive";
+
+
+                    statusButton.textContent =
+                        "Enable";
+
+                } else {
+
+                    row.dataset.status =
+                        "active";
+
+
+                    statusBadge.textContent =
+                        "Active";
+
+
+                    statusBadge.className =
+                        "status-badge active";
+
+
+                    statusButton.textContent =
+                        "Disable";
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       ADD OR UPDATE USER
+    ====================================================== */
+
+    form.addEventListener(
+        "submit",
+        (event) => {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById(
+                    "user-name"
+                ).value.trim();
+
+
+            const email =
+                document.getElementById(
+                    "user-email"
+                ).value.trim();
+
+
+            const role =
+                document.getElementById(
+                    "user-role"
+                ).value;
+
+
+            const status =
+                document.getElementById(
+                    "user-status"
+                ).value;
+
+
+            const roleLabel =
+                getRoleLabel(role);
+
+
+            const statusLabel =
+                status === "active"
+                    ? "Active"
+                    : "Inactive";
+
+
+            /* UPDATE EXISTING USER */
+            if (editingRow) {
+
+                const cells =
+                    editingRow.querySelectorAll(
+                        "td"
+                    );
+
+
+                cells[1].textContent =
+                    name;
+
+
+                cells[2].textContent =
+                    email;
+
+
+                cells[3].innerHTML =
+                    `
+                        <span class="role-badge ${role}">
+                            ${roleLabel}
+                        </span>
+                    `;
+
+
+                cells[4].innerHTML =
+                    `
+                        <span class="status-badge ${status}">
+                            ${statusLabel}
+                        </span>
+                    `;
+
+
+                const statusButton =
+                    editingRow.querySelector(
+                        ".user-action.status"
+                    );
+
+
+                statusButton.textContent =
+                    status === "active"
+                        ? "Disable"
+                        : "Enable";
+
+
+                editingRow.dataset.role =
+                    role;
+
+
+                editingRow.dataset.status =
+                    status;
+
+            } else {
+
+                /* ADD NEW USER */
+
+                const userCount =
+                    tableBody.querySelectorAll(
+                        "tr"
+                    ).length;
+
+
+                const userId =
+                    "USR" +
+                    String(
+                        userCount + 1
+                    ).padStart(
+                        3,
+                        "0"
+                    );
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.dataset.role =
+                    role;
+
+
+                row.dataset.status =
+                    status;
+
+
+                row.innerHTML = `
+                    <td>${userId}</td>
+
+                    <td>${name}</td>
+
+                    <td>${email}</td>
+
+                    <td>
+                        <span class="role-badge ${role}">
+                            ${roleLabel}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="status-badge ${status}">
+                            ${statusLabel}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <div class="user-actions">
+
+                            <button
+                                class="user-action edit"
+                                type="button"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="user-action status"
+                                type="button"
+                            >
+                                ${
+                                    status === "active"
+                                        ? "Disable"
+                                        : "Enable"
+                                }
+                            </button>
+
+                        </div>
+
+                    </td>
+                `;
+
+
+                tableBody.appendChild(
+                    row
+                );
+
+            }
+
+
+            updateUserCounts();
+
+
+            filterUsers();
+
+
+            closeUserModal();
+
+        }
+    );
+
+
+    updateUserCounts();
+
+});
