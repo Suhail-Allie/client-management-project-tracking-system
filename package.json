@@ -1,0 +1,9 @@
+{
+    "name": "client-management-project-tracking-system",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Client Management and Project Tracking System developed for XISD6329.",
+    "scripts": {
+        "test": "node --test tests/site.test.js"
+    }
+}
