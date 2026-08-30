@@ -4211,3 +4211,208 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUserCounts();
 
 });
+
+
+
+
+
+
+/* =========================================================
+   PROFILE & SETTINGS
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const profileForm =
+        document.getElementById(
+            "profile-settings-form"
+        );
+
+    const notificationForm =
+        document.getElementById(
+            "notification-settings-form"
+        );
+
+    const passwordForm =
+        document.getElementById(
+            "password-settings-form"
+        );
+
+    const message =
+        document.getElementById(
+            "settings-message"
+        );
+
+
+    if (
+        !profileForm ||
+        !notificationForm ||
+        !passwordForm ||
+        !message
+    ) {
+        return;
+    }
+
+
+    function showSettingsMessage(
+        text,
+        type
+    ) {
+
+        message.textContent =
+            text;
+
+
+        message.className =
+            `settings-message ${type}`;
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =====================================================
+       SAVE PROFILE
+    ====================================================== */
+
+    profileForm.addEventListener(
+        "submit",
+        (event) => {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById(
+                    "profile-full-name"
+                ).value.trim();
+
+
+            const email =
+                document.getElementById(
+                    "profile-email"
+                ).value.trim();
+
+
+            document.getElementById(
+                "profile-display-name"
+            ).textContent =
+                name;
+
+
+            const initials =
+                name
+                    .split(" ")
+                    .filter(Boolean)
+                    .map(
+                        (part) =>
+                            part.charAt(0)
+                    )
+                    .join("")
+                    .substring(0, 2)
+                    .toUpperCase();
+
+
+            document.getElementById(
+                "profile-avatar"
+            ).textContent =
+                initials;
+
+
+            showSettingsMessage(
+                `Profile updated successfully for ${email}.`,
+                "success"
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       SAVE PREFERENCES
+    ====================================================== */
+
+    notificationForm.addEventListener(
+        "submit",
+        (event) => {
+
+            event.preventDefault();
+
+
+            showSettingsMessage(
+                "Notification preferences updated successfully.",
+                "success"
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       CHANGE PASSWORD
+    ====================================================== */
+
+    passwordForm.addEventListener(
+        "submit",
+        (event) => {
+
+            event.preventDefault();
+
+
+            const newPassword =
+                document.getElementById(
+                    "new-password"
+                ).value;
+
+
+            const confirmPassword =
+                document.getElementById(
+                    "confirm-password"
+                ).value;
+
+
+            if (
+                newPassword !==
+                confirmPassword
+            ) {
+
+                showSettingsMessage(
+                    "The new passwords do not match.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                newPassword.length < 8
+            ) {
+
+                showSettingsMessage(
+                    "The new password must contain at least 8 characters.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            passwordForm.reset();
+
+
+            showSettingsMessage(
+                "Password validation completed successfully. Permanent password updates will be connected during backend development.",
+                "success"
+            );
+
+        }
+    );
+
+});
