@@ -4416,3 +4416,282 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+
+
+
+
+
+/* =========================================================
+   GLOBAL TOPBAR NAVIGATION
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const notificationButtons =
+        document.querySelectorAll(".notification-button");
+
+    notificationButtons.forEach((button) => {
+
+        button.addEventListener("click", () => {
+
+            window.location.href =
+                "notifications.html";
+
+        });
+
+    });
+
+
+    const globalSearchInputs =
+        document.querySelectorAll(
+            ".topbar-search input"
+        );
+
+
+    const pageRoutes = {
+        dashboard: "dashboard.html",
+
+        client: "clients.html",
+        clients: "clients.html",
+
+        project: "projects.html",
+        projects: "projects.html",
+
+        milestone: "milestones.html",
+        milestones: "milestones.html",
+
+        document: "documents.html",
+        documents: "documents.html",
+        file: "documents.html",
+        files: "documents.html",
+
+        invoice: "invoices.html",
+        invoices: "invoices.html",
+        payment: "invoices.html",
+        payments: "invoices.html",
+
+        report: "reports.html",
+        reports: "reports.html",
+        analytics: "reports.html",
+
+        notification: "notifications.html",
+        notifications: "notifications.html",
+
+        user: "users.html",
+        users: "users.html",
+
+        setting: "profile.html",
+        settings: "profile.html",
+        profile: "profile.html"
+    };
+
+
+    globalSearchInputs.forEach((input) => {
+
+        input.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (event.key !== "Enter") {
+                    return;
+                }
+
+
+                const searchTerm =
+                    input.value
+                        .toLowerCase()
+                        .trim();
+
+
+                if (searchTerm === "") {
+                    return;
+                }
+
+
+                let matchedRoute =
+                    null;
+
+
+                for (
+                    const keyword
+                    in pageRoutes
+                ) {
+
+                    if (
+                        searchTerm.includes(
+                            keyword
+                        )
+                    ) {
+
+                        matchedRoute =
+                            pageRoutes[keyword];
+
+                        break;
+
+                    }
+
+                }
+
+
+                if (matchedRoute) {
+
+                    window.location.href =
+                        matchedRoute;
+
+                } else {
+
+                    window.alert(
+                        "No matching system page was found."
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+});
+
+
+/* =========================================================
+   PROJECT CARD EDIT AND DELETE
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const projectGrid =
+        document.getElementById(
+            "project-grid"
+        );
+
+
+    if (!projectGrid) {
+        return;
+    }
+
+
+    projectGrid.addEventListener(
+        "click",
+        (event) => {
+
+            const editButton =
+                event.target.closest(
+                    ".project-action.edit"
+                );
+
+
+            const deleteButton =
+                event.target.closest(
+                    ".project-action.delete"
+                );
+
+
+            /* EDIT PROJECT */
+            if (editButton) {
+
+                const card =
+                    editButton.closest(
+                        ".project-card"
+                    );
+
+
+                const viewLink =
+                    card.querySelector(
+                        ".project-action.view"
+                    );
+
+
+                if (!viewLink) {
+                    return;
+                }
+
+
+                const editUrl =
+                    new URL(
+                        viewLink.href
+                    );
+
+
+                editUrl.searchParams.set(
+                    "edit",
+                    "true"
+                );
+
+
+                window.location.href =
+                    editUrl.toString();
+
+            }
+
+
+            /* DELETE PROJECT */
+            if (deleteButton) {
+
+                const card =
+                    deleteButton.closest(
+                        ".project-card"
+                    );
+
+
+                const projectName =
+                    card.querySelector(
+                        "h2"
+                    ).textContent.trim();
+
+
+                const confirmed =
+                    window.confirm(
+                        `Delete ${projectName}?`
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                card.remove();
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   AUTOMATICALLY OPEN PROJECT EDIT FORM
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const editButton =
+        document.getElementById(
+            "open-edit-project-modal"
+        );
+
+
+    if (!editButton) {
+        return;
+    }
+
+
+    const parameters =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    if (
+        parameters.get("edit") ===
+        "true"
+    ) {
+
+        editButton.click();
+
+    }
+
+});
