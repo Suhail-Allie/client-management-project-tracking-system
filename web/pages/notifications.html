@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Notifications | Web App Solutions</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="sidebar-brand-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span>Web App Solutions</span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="sidebar-link">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="clients.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    Clients
+                </a>
+
+                <a href="projects.html" class="sidebar-link">
+                    <span class="nav-icon">▣</span>
+                    Projects
+                </a>
+
+                <a href="milestones.html" class="sidebar-link">
+                    <span class="nav-icon">◉</span>
+                    Milestones
+                </a>
+
+                <a href="documents.html" class="sidebar-link">
+                    <span class="nav-icon">▤</span>
+                    Documents
+                </a>
+
+                <a href="invoices.html" class="sidebar-link">
+                    <span class="nav-icon">▧</span>
+                    Invoices
+                </a>
+
+                <a href="reports.html" class="sidebar-link">
+                    <span class="nav-icon">⌁</span>
+                    Reports
+                </a>
+
+                <a href="notifications.html" class="sidebar-link active">
+                    <span class="nav-icon">♧</span>
+                    Notifications
+                </a>
+
+                <a href="users.html" class="sidebar-link">
+                    <span class="nav-icon">♙</span>
+                    User Management
+                </a>
+
+                <a href="profile.html" class="sidebar-link">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a href="../index.html" class="logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobile-menu-button"
+                    type="button"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="topbar-search">
+
+                    <input
+                        type="search"
+                        placeholder="Search..."
+                        aria-label="Global search"
+                    >
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <button
+                        class="notification-button"
+                        type="button"
+                        aria-label="Notifications"
+                    >
+                        ♧
+                    </button>
+
+                    <div class="user-avatar">
+                        SA
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Suhail</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- NOTIFICATION CONTENT -->
+            <section class="dashboard-content">
+
+                <div class="page-heading-row">
+
+                    <div>
+                        <h1>Notifications</h1>
+
+                        <p>
+                            View recent system and project updates
+                        </p>
+                    </div>
+
+                    <div class="notification-page-actions">
+
+                        <button
+                            class="notification-page-button primary"
+                            id="mark-all-read-button"
+                            type="button"
+                        >
+                            Mark All Read
+                        </button>
+
+                        <button
+                            class="notification-page-button danger"
+                            id="delete-all-notifications-button"
+                            type="button"
+                        >
+                            Delete All
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTERS -->
+                <section class="notification-filter-bar">
+
+                    <button
+                        class="notification-filter active"
+                        type="button"
+                        data-filter="all"
+                    >
+                        All Notifications
+                        <span id="all-notification-count">5</span>
+                    </button>
+
+                    <button
+                        class="notification-filter"
+                        type="button"
+                        data-filter="unread"
+                    >
+                        Unread
+                        <span id="unread-notification-count">3</span>
+                    </button>
+
+                </section>
+
+
+                <!-- NOTIFICATION LIST -->
+                <section
+                    class="notification-list"
+                    id="notification-list"
+                >
+
+                    <!-- NOTIFICATION 1 -->
+                    <article
+                        class="notification-card unread"
+                        data-read="false"
+                    >
+
+                        <div class="notification-type-icon deadline">
+                            !
+                        </div>
+
+                        <div class="notification-card-content">
+
+                            <div class="notification-card-heading">
+
+                                <div>
+                                    <h2>
+                                        Project Deadline Approaching
+                                    </h2>
+
+                                    <span>
+                                        30 Aug 2026 • 09:15
+                                    </span>
+                                </div>
+
+                                <span class="unread-indicator"></span>
+
+                            </div>
+
+                            <p>
+                                The E-commerce Platform project deadline
+                                is approaching. The project is due in
+                                approximately two weeks.
+                            </p>
+
+                            <div class="notification-card-actions">
+
+                                <button
+                                    class="notification-action mark-read"
+                                    type="button"
+                                >
+                                    Mark as Read
+                                </button>
+
+                                <button
+                                    class="notification-action delete"
+                                    type="button"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- NOTIFICATION 2 -->
+                    <article
+                        class="notification-card unread"
+                        data-read="false"
+                    >
+
+                        <div class="notification-type-icon payment">
+                            R
+                        </div>
+
+                        <div class="notification-card-content">
+
+                            <div class="notification-card-heading">
+
+                                <div>
+                                    <h2>
+                                        Payment Received
+                                    </h2>
+
+                                    <span>
+                                        29 Aug 2026 • 14:40
+                                    </span>
+                                </div>
+
+                                <span class="unread-indicator"></span>
+
+                            </div>
+
+                            <p>
+                                Payment for invoice INV-1001 from
+                                TechCorp Inc. has been received and the
+                                invoice status has been updated.
+                            </p>
+
+                            <div class="notification-card-actions">
+
+                                <button
+                                    class="notification-action mark-read"
+                                    type="button"
+                                >
+                                    Mark as Read
+                                </button>
+
+                                <button
+                                    class="notification-action delete"
+                                    type="button"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- NOTIFICATION 3 -->
+                    <article
+                        class="notification-card unread"
+                        data-read="false"
+                    >
+
+                        <div class="notification-type-icon milestone">
+                            ✓
+                        </div>
+
+                        <div class="notification-card-content">
+
+                            <div class="notification-card-heading">
+
+                                <div>
+                                    <h2>
+                                        Milestone Updated
+                                    </h2>
+
+                                    <span>
+                                        29 Aug 2026 • 11:20
+                                    </span>
+                                </div>
+
+                                <span class="unread-indicator"></span>
+
+                            </div>
+
+                            <p>
+                                The Frontend Integration milestone for
+                                the E-commerce Platform has been updated
+                                to 75% completion.
+                            </p>
+
+                            <div class="notification-card-actions">
+
+                                <button
+                                    class="notification-action mark-read"
+                                    type="button"
+                                >
+                                    Mark as Read
+                                </button>
+
+                                <button
+                                    class="notification-action delete"
+                                    type="button"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- NOTIFICATION 4 -->
+                    <article
+                        class="notification-card"
+                        data-read="true"
+                    >
+
+                        <div class="notification-type-icon document">
+                            ↑
+                        </div>
+
+                        <div class="notification-card-content">
+
+                            <div class="notification-card-heading">
+
+                                <div>
+                                    <h2>
+                                        New Document Uploaded
+                                    </h2>
+
+                                    <span>
+                                        28 Aug 2026 • 16:05
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <p>
+                                A new project requirements document was
+                                uploaded to the Mobile App Development
+                                project.
+                            </p>
+
+                            <div class="notification-card-actions">
+
+                                <button
+                                    class="notification-action delete"
+                                    type="button"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- NOTIFICATION 5 -->
+                    <article
+                        class="notification-card"
+                        data-read="true"
+                    >
+
+                        <div class="notification-type-icon project">
+                            ▣
+                        </div>
+
+                        <div class="notification-card-content">
+
+                            <div class="notification-card-heading">
+
+                                <div>
+                                    <h2>
+                                        Project Status Changed
+                                    </h2>
+
+                                    <span>
+                                        27 Aug 2026 • 10:30
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <p>
+                                CRM System has been changed from
+                                In Progress to Completed.
+                            </p>
+
+                            <div class="notification-card-actions">
+
+                                <button
+                                    class="notification-action delete"
+                                    type="button"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- EMPTY STATE -->
+                <div
+                    class="notification-empty-state"
+                    id="notification-empty-state"
+                >
+
+                    <div>✓</div>
+
+                    <h2>No Notifications</h2>
+
+                    <p>
+                        There are currently no notifications to display.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/app.js"></script>
+
+</body>
+</html>

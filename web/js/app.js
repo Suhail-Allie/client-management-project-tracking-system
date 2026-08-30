@@ -3110,3 +3110,406 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 });
+
+
+
+
+
+
+
+/* =========================================================
+   NOTIFICATION MANAGEMENT
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const notificationList =
+        document.getElementById(
+            "notification-list"
+        );
+
+    const emptyState =
+        document.getElementById(
+            "notification-empty-state"
+        );
+
+    const markAllButton =
+        document.getElementById(
+            "mark-all-read-button"
+        );
+
+    const deleteAllButton =
+        document.getElementById(
+            "delete-all-notifications-button"
+        );
+
+    const filterButtons =
+        document.querySelectorAll(
+            ".notification-filter"
+        );
+
+    const allCount =
+        document.getElementById(
+            "all-notification-count"
+        );
+
+    const unreadCount =
+        document.getElementById(
+            "unread-notification-count"
+        );
+
+
+    if (
+        !notificationList ||
+        !markAllButton ||
+        !deleteAllButton
+    ) {
+        return;
+    }
+
+
+    let currentFilter =
+        "all";
+
+
+    /* =====================================================
+       UPDATE COUNTS
+    ====================================================== */
+
+    function updateNotificationCounts() {
+
+        const notifications =
+            notificationList.querySelectorAll(
+                ".notification-card"
+            );
+
+
+        const unreadNotifications =
+            notificationList.querySelectorAll(
+                '.notification-card[data-read="false"]'
+            );
+
+
+        allCount.textContent =
+            notifications.length;
+
+
+        unreadCount.textContent =
+            unreadNotifications.length;
+
+
+        if (
+            notifications.length === 0
+        ) {
+
+            emptyState.style.display =
+                "block";
+
+            notificationList.style.display =
+                "none";
+
+        } else {
+
+            emptyState.style.display =
+                "none";
+
+            notificationList.style.display =
+                "flex";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FILTER NOTIFICATIONS
+    ====================================================== */
+
+    function filterNotifications() {
+
+        const notifications =
+            notificationList.querySelectorAll(
+                ".notification-card"
+            );
+
+
+        let visibleNotifications =
+            0;
+
+
+        notifications.forEach(
+            (notification) => {
+
+                const isRead =
+                    notification.dataset.read ===
+                    "true";
+
+
+                let shouldShow =
+                    true;
+
+
+                if (
+                    currentFilter === "unread"
+                ) {
+
+                    shouldShow =
+                        !isRead;
+
+                }
+
+
+                notification.style.display =
+                    shouldShow
+                        ? ""
+                        : "none";
+
+
+                if (shouldShow) {
+
+                    visibleNotifications++;
+
+                }
+
+            }
+        );
+
+
+        if (
+            visibleNotifications === 0
+        ) {
+
+            emptyState.style.display =
+                "block";
+
+            notificationList.style.display =
+                "flex";
+
+        } else {
+
+            emptyState.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FILTER BUTTONS
+    ====================================================== */
+
+    filterButtons.forEach(
+        (button) => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    filterButtons.forEach(
+                        (item) => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    currentFilter =
+                        button.dataset.filter;
+
+
+                    filterNotifications();
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       INDIVIDUAL ACTIONS
+    ====================================================== */
+
+    notificationList.addEventListener(
+        "click",
+        (event) => {
+
+            const markReadButton =
+                event.target.closest(
+                    ".notification-action.mark-read"
+                );
+
+
+            const deleteButton =
+                event.target.closest(
+                    ".notification-action.delete"
+                );
+
+
+            /* MARK ONE AS READ */
+            if (markReadButton) {
+
+                const card =
+                    markReadButton.closest(
+                        ".notification-card"
+                    );
+
+
+                card.dataset.read =
+                    "true";
+
+
+                card.classList.remove(
+                    "unread"
+                );
+
+
+                const indicator =
+                    card.querySelector(
+                        ".unread-indicator"
+                    );
+
+
+                if (indicator) {
+
+                    indicator.remove();
+
+                }
+
+
+                markReadButton.remove();
+
+
+                updateNotificationCounts();
+
+                filterNotifications();
+
+            }
+
+
+            /* DELETE ONE */
+            if (deleteButton) {
+
+                const card =
+                    deleteButton.closest(
+                        ".notification-card"
+                    );
+
+
+                card.remove();
+
+
+                updateNotificationCounts();
+
+                filterNotifications();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       MARK ALL READ
+    ====================================================== */
+
+    markAllButton.addEventListener(
+        "click",
+        () => {
+
+            const notifications =
+                notificationList.querySelectorAll(
+                    ".notification-card"
+                );
+
+
+            notifications.forEach(
+                (card) => {
+
+                    card.dataset.read =
+                        "true";
+
+
+                    card.classList.remove(
+                        "unread"
+                    );
+
+
+                    const indicator =
+                        card.querySelector(
+                            ".unread-indicator"
+                        );
+
+
+                    if (indicator) {
+
+                        indicator.remove();
+
+                    }
+
+
+                    const markReadButton =
+                        card.querySelector(
+                            ".notification-action.mark-read"
+                        );
+
+
+                    if (markReadButton) {
+
+                        markReadButton.remove();
+
+                    }
+
+                }
+            );
+
+
+            updateNotificationCounts();
+
+            filterNotifications();
+
+        }
+    );
+
+
+    /* =====================================================
+       DELETE ALL
+    ====================================================== */
+
+    deleteAllButton.addEventListener(
+        "click",
+        () => {
+
+            const confirmed =
+                window.confirm(
+                    "Delete all notifications?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            notificationList.innerHTML =
+                "";
+
+
+            updateNotificationCounts();
+
+        }
+    );
+
+
+    updateNotificationCounts();
+
+});
