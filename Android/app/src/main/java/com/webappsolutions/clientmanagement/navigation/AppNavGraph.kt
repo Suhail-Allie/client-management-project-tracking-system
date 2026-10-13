@@ -21,7 +21,8 @@ object AppRoutes {
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    startDestination: String = AppRoutes.LOGIN
+    startDestination: String = AppRoutes.LOGIN,
+    onThemeChanged: (String) -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -67,7 +68,16 @@ fun AppNavGraph(
             SettingsScreen(
                 onNavigate = { route ->
                     navController.navigate(route)
-                }
+                },
+                onLogout = {
+                    navController.navigate(AppRoutes.LOGIN) {
+                        popUpTo(AppRoutes.DASHBOARD) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                },
+                onThemeChanged = onThemeChanged
             )
         }
     }

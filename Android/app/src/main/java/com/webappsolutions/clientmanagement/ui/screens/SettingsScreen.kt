@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.webappsolutions.clientmanagement.data.network.ApiClient
+import com.webappsolutions.clientmanagement.data.network.supabaseClient
+import io.github.jan.supabase.auth.auth
 import com.webappsolutions.clientmanagement.navigation.AppRoutes
 import com.webappsolutions.clientmanagement.ui.components.AppBottomNavigation
 import kotlinx.coroutines.launch
@@ -106,7 +108,9 @@ private fun JsonObject.getBooleanValue(
 
 @Composable
 fun SettingsScreen(
-    onNavigate: (String) -> Unit
+    onNavigate: (String) -> Unit,
+    onLogout: () -> Unit,
+    onThemeChanged: (String) -> Unit = {}
 ) {
     var theme by remember {
         mutableStateOf("system")
@@ -129,6 +133,10 @@ fun SettingsScreen(
     }
 
     var isSaving by remember {
+        mutableStateOf(false)
+    }
+
+    var isLoggingOut by remember {
         mutableStateOf(false)
     }
 
@@ -162,6 +170,7 @@ fun SettingsScreen(
                         "theme",
                         "system"
                     )
+                    onThemeChanged(theme)
 
                     notificationsEnabled =
                         settings.getBooleanValue(
@@ -326,6 +335,7 @@ fun SettingsScreen(
                                 OutlinedButton(
                                     onClick = {
                                         theme = "light"
+                                        onThemeChanged(theme)
                                     }
                                 ) {
                                     Text("Light")
@@ -334,6 +344,7 @@ fun SettingsScreen(
                                 OutlinedButton(
                                     onClick = {
                                         theme = "dark"
+                                        onThemeChanged(theme)
                                     }
                                 ) {
                                     Text("Dark")
@@ -342,6 +353,7 @@ fun SettingsScreen(
                                 OutlinedButton(
                                     onClick = {
                                         theme = "system"
+                                        onThemeChanged(theme)
                                     }
                                 ) {
                                     Text("System")
@@ -558,6 +570,39 @@ fun SettingsScreen(
                                 "Saving..."
                             } else {
                                 "Save Settings"
+                            }
+                        )
+                    }
+                }
+
+                item {
+
+                    OutlinedButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !isSaving && !isLoggingOut,
+                        onClick = {
+                            coroutineScope.launch {
+                                isLoggingOut = true
+                                errorMessage = null
+                                successMessage = null
+
+                                try {
+                                    supabaseClient.auth.signOut()
+                                    onLogout()
+                                } catch (exception: Exception) {
+                                    errorMessage = exception.message
+                                        ?: "Unable to log out. Please try again."
+                                } finally {
+                                    isLoggingOut = false
+                                }
+                            }
+                        }
+                    ) {
+                        Text(
+                            text = if (isLoggingOut) {
+                                "Logging out..."
+                            } else {
+                                "Log Out"
                             }
                         )
                     }

@@ -7,6 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.rememberNavController
 import com.webappsolutions.clientmanagement.data.network.supabaseClient
 import com.webappsolutions.clientmanagement.navigation.AppNavGraph
@@ -21,14 +25,23 @@ class MainActivity : ComponentActivity() {
         handleAuthIntent(intent)
 
         setContent {
-            ClientManagementTheme {
+            var themePreference by remember {
+                mutableStateOf("system")
+            }
+
+            ClientManagementTheme(
+                themePreference = themePreference
+            ) {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
 
                     AppNavGraph(
-                        navController = navController
+                        navController = navController,
+                        onThemeChanged = { selectedTheme ->
+                            themePreference = selectedTheme
+                        }
                     )
                 }
             }

@@ -9,7 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
 
     // Android Emulator address for your local Node.js API.
-    private const val BASE_URL = "http://10.0.2.2:3000/"
+    private const val BASE_URL =
+        "https://client-management-api-14cs.onrender.com/"
 
     private val okHttpClient: OkHttpClient by lazy {
 

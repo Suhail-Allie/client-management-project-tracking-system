@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import com.google.gson.JsonElement
 import com.webappsolutions.clientmanagement.data.network.ApiClient
 import com.webappsolutions.clientmanagement.navigation.AppRoutes
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.delay
 
 @Composable
 fun DashboardScreen(
@@ -72,113 +74,140 @@ fun DashboardScreen(
         errorMessage = null
 
         try {
-            // 1. Retrieve the authenticated user's profile.
-            val profileResponse =
-                ApiClient.service.getCurrentUser()
+            var attempt = 0
+            var completed = false
 
-            if (!profileResponse.isSuccessful) {
-                throw IllegalStateException(
-                    when (profileResponse.code()) {
-                        401 -> "Your session is not authenticated. Please sign in again."
-                        403 -> "You do not have permission to access this information."
-                        else -> "Unable to load your profile. HTTP ${profileResponse.code()}."
+            while (attempt < 2 && !completed) {
+                attempt++
+
+                try {
+                    // 1. Retrieve the authenticated user's profile.
+                    val profileResponse =
+                        ApiClient.service.getCurrentUser()
+
+                    if (!profileResponse.isSuccessful) {
+                        throw IllegalStateException(
+                            when (profileResponse.code()) {
+                                401 -> "Your session is not authenticated. Please sign in again."
+                                403 -> "You do not have permission to access this information."
+                                else -> "Unable to load your profile. HTTP ${profileResponse.code()}."
+                            }
+                        )
                     }
-                )
-            }
 
-            val profile = profileResponse.body()
+                    val profile = profileResponse.body()
 
-            displayName = profile?.let {
-                findValue(
-                    it,
-                    listOf(
-                        "display_name",
-                        "displayName",
-                        "full_name",
-                        "fullName",
-                        "name",
-                        "email"
+                    displayName = profile?.let {
+                        findValue(
+                            it,
+                            listOf(
+                                "display_name",
+                                "displayName",
+                                "full_name",
+                                "fullName",
+                                "name",
+                                "email"
+                            )
+                        )
+                    } ?: "Welcome back"
+
+                    // 2. Retrieve live dashboard statistics.
+                    val reportResponse =
+                        ApiClient.service.getReportSummary()
+
+                    if (!reportResponse.isSuccessful) {
+                        throw IllegalStateException(
+                            "Unable to load dashboard reports. HTTP ${reportResponse.code()}."
+                        )
+                    }
+
+                    val report = reportResponse.body()
+                        ?: throw IllegalStateException(
+                            "The reports API returned an empty response."
+                        )
+
+                    // Read values from the report response.
+                    // Multiple possible key names are supported because
+                    // the response may use camelCase or snake_case.
+
+                    projectsCount = readMetric(
+                        report,
+                        listOf(
+                            "totalProjects",
+                            "projectCount",
+                            "projectsCount",
+                            "total_projects",
+                            "projects"
+                        )
                     )
-                )
-            } ?: "Welcome back"
 
-            // 2. Retrieve live dashboard statistics.
-            val reportResponse =
-                ApiClient.service.getReportSummary()
+                    milestonesCount = readMetric(
+                        report,
+                        listOf(
+                            "totalMilestones",
+                            "milestoneCount",
+                            "milestonesCount",
+                            "total_milestones",
+                            "milestones"
+                        )
+                    )
 
-            if (!reportResponse.isSuccessful) {
-                throw IllegalStateException(
-                    "Unable to load dashboard reports. HTTP ${reportResponse.code()}."
-                )
+                    invoicesCount = readMetric(
+                        report,
+                        listOf(
+                            "totalInvoices",
+                            "invoiceCount",
+                            "invoicesCount",
+                            "total_invoices",
+                            "invoices"
+                        )
+                    )
+
+                    notificationsCount = readMetric(
+                        report,
+                        listOf(
+                            "unreadNotifications",
+                            "unreadNotificationCount",
+                            "totalNotifications",
+                            "notificationCount",
+                            "total_notifications",
+                            "notifications"
+                        )
+                    )
+
+                    if (
+                        projectsCount == "—" &&
+                        milestonesCount == "—" &&
+                        invoicesCount == "—" &&
+                        notificationsCount == "—"
+                    ) {
+                        errorMessage =
+                            "The reports endpoint responded, but its summary fields could not be identified."
+                    }
+
+                    completed = true
+                } catch (exception: Exception) {
+                    if (exception is CancellationException) {
+                        throw exception
+                    }
+
+                    val message = exception.message
+                        ?: "Unable to load dashboard data. Please try again."
+                    val isAuthenticationError =
+                        message.contains("401") ||
+                                message.contains("403") ||
+                                message.contains("not authenticated", ignoreCase = true) ||
+                                message.contains("permission", ignoreCase = true)
+
+                    if (attempt < 2 && !isAuthenticationError) {
+                        // A free Render instance may need time to wake after inactivity.
+                        delay(1500)
+                    } else {
+                        errorMessage = message
+                        completed = true
+                    }
+                }
             }
-
-            val report = reportResponse.body()
-                ?: throw IllegalStateException(
-                    "The reports API returned an empty response."
-                )
-
-            // Read values from the report response.
-            // Multiple possible key names are supported because
-            // the response may use camelCase or snake_case.
-
-            projectsCount = readMetric(
-                report,
-                listOf(
-                    "totalProjects",
-                    "projectCount",
-                    "projectsCount",
-                    "total_projects",
-                    "projects"
-                )
-            )
-
-            milestonesCount = readMetric(
-                report,
-                listOf(
-                    "totalMilestones",
-                    "milestoneCount",
-                    "milestonesCount",
-                    "total_milestones",
-                    "milestones"
-                )
-            )
-
-            invoicesCount = readMetric(
-                report,
-                listOf(
-                    "totalInvoices",
-                    "invoiceCount",
-                    "invoicesCount",
-                    "total_invoices",
-                    "invoices"
-                )
-            )
-
-            notificationsCount = readMetric(
-                report,
-                listOf(
-                    "unreadNotifications",
-                    "unreadNotificationCount",
-                    "totalNotifications",
-                    "notificationCount",
-                    "total_notifications",
-                    "notifications"
-                )
-            )
-
-            if (
-                projectsCount == "—" &&
-                milestonesCount == "—" &&
-                invoicesCount == "—" &&
-                notificationsCount == "—"
-            ) {
-                errorMessage =
-                    "The reports endpoint responded, but its summary fields could not be identified."
-            }
-
-        } catch (exception: Exception) {
-            errorMessage = exception.message
-                ?: "Unable to load dashboard data. Please try again."
         } finally {
             isLoading = false
         }
