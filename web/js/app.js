@@ -1,39 +1,83 @@
-document.addEventListener("DOMContentLoaded", () => {
+const CMS_API_BASE_URL = "https://client-management-api-14cs.onrender.com/api/v1";
 
-    const loginForm = document.getElementById("login-form");
+function getCmsAccessToken() {
+    return sessionStorage.getItem("cms_access_token");
+}
 
-    if (!loginForm) {
-        return;
+async function cmsApiRequest(endpoint, options = {}) {
+    const headers = new Headers(options.headers || {});
+    const token = getCmsAccessToken();
+
+    if (token && !headers.has("Authorization")) {
+        headers.set("Authorization", `Bearer ${token}`);
     }
+
+    const response = await fetch(`${CMS_API_BASE_URL}${endpoint}`, {
+        ...options,
+        headers
+    });
+    const payload = await response.json().catch(() => ({}));
+
+    if (!response.ok || payload.success === false) {
+        if (response.status === 401) {
+            sessionStorage.removeItem("cms_access_token");
+            sessionStorage.removeItem("cms_profile");
+        }
+        throw new Error(payload.message || `Request failed with HTTP ${response.status}.`);
+    }
+
+    return payload;
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("login-form");
+    if (!loginForm) return;
 
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const loginMessage = document.getElementById("login-message");
+    const submitButton = loginForm.querySelector('button[type="submit"]');
 
-    loginForm.addEventListener("submit", (event) => {
-
+    loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-
         const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
-
+        const password = passwordInput.value;
         loginMessage.className = "login-message";
         loginMessage.textContent = "";
 
-        if (email === "" || password === "") {
-
-            loginMessage.textContent =
-                "Please enter your email address and password.";
-
+        if (!email || !password) {
+            loginMessage.textContent = "Please enter your email address and password.";
             loginMessage.classList.add("error");
-
             return;
         }
 
-        window.location.href = "pages/dashboard.html";
+        if (submitButton) submitButton.disabled = true;
+        loginMessage.textContent = "Signing in...";
 
+        try {
+            const response = await fetch(`${CMS_API_BASE_URL}/auth/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+            const payload = await response.json().catch(() => ({}));
+
+            if (!response.ok || !payload.success || !payload.session?.access_token) {
+                throw new Error(payload.message || "Unable to sign in. Check your credentials.");
+            }
+
+            sessionStorage.setItem("cms_access_token", payload.session.access_token);
+            sessionStorage.setItem("cms_profile", JSON.stringify(payload.profile || payload.user || {}));
+            loginMessage.textContent = "Login successful. Opening dashboard...";
+            loginMessage.classList.add("success");
+            window.location.href = "pages/dashboard.html";
+        } catch (error) {
+            loginMessage.textContent = error.message || "Unable to sign in. Please try again.";
+            loginMessage.classList.add("error");
+            if (submitButton) submitButton.disabled = false;
+        }
     });
-
 });
 
 
@@ -55,6 +99,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".logout-link").forEach((link) => {
+        link.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const token = getCmsAccessToken();
+            const destination = link.href;
+            try {
+                if (token) {
+                    await fetch(`${CMS_API_BASE_URL}/auth/logout`, {
+                        method: "POST",
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                }
+            } catch (_) {
+                // Clear the local session even if the API cannot be reached.
+            } finally {
+                sessionStorage.removeItem("cms_access_token");
+                sessionStorage.removeItem("cms_profile");
+                window.location.href = destination;
+            }
+        });
+    });
+});
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1848,488 +1917,321 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /* =========================================================
-   DOCUMENT MANAGEMENT
+   DOCUMENT MANAGEMENT — REAL API + SUPABASE STORAGE
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+    const browseButton = document.getElementById("browse-files-button");
+    const fileInput = document.getElementById("document-file-input");
+    const dropZone = document.getElementById("document-drop-zone");
+    const tableBody = document.getElementById("document-table-body");
+    const uploadMessage = document.getElementById("upload-message");
+    const searchInput = document.getElementById("document-search");
+    const emptyMessage = document.getElementById("document-empty-message");
+    const projectSelect = document.getElementById("document-project-select");
+    const visibilitySelect = document.getElementById("document-visibility-select");
+    const descriptionInput = document.getElementById("document-description-input");
+    const uploadPanel = document.querySelector(".document-upload-panel");
 
-    const browseButton =
-        document.getElementById(
-            "browse-files-button"
-        );
+    if (!browseButton || !fileInput || !dropZone || !tableBody) return;
 
-    const fileInput =
-        document.getElementById(
-            "document-file-input"
-        );
+    const allowedExtensions = ["pdf", "doc", "docx", "xls", "xlsx", "zip", "png", "jpg", "jpeg"];
+    const mimeTypes = {
+        pdf: "application/pdf",
+        doc: "application/msword",
+        docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        xls: "application/vnd.ms-excel",
+        xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        zip: "application/zip",
+        png: "image/png",
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg"
+    };
 
-    const dropZone =
-        document.getElementById(
-            "document-drop-zone"
-        );
+    let profile = {};
+    try {
+        profile = JSON.parse(sessionStorage.getItem("cms_profile") || "{}");
+    } catch (_) {}
+    const canManageDocuments = profile.role === "administrator" || profile.role === "developer";
 
-    const tableBody =
-        document.getElementById(
-            "document-table-body"
-        );
-
-    const uploadMessage =
-        document.getElementById(
-            "upload-message"
-        );
-
-
-    if (
-        !browseButton ||
-        !fileInput ||
-        !dropZone ||
-        !tableBody
-    ) {
-        return;
+    function setUploadMessage(message, type = "") {
+        if (!uploadMessage) return;
+        uploadMessage.className = "upload-message";
+        uploadMessage.textContent = message;
+        if (type) uploadMessage.classList.add(type);
     }
-
-
-    const allowedExtensions = [
-        "pdf",
-        "doc",
-        "docx",
-        "xls",
-        "xlsx",
-        "zip",
-        "png",
-        "jpg",
-        "jpeg"
-    ];
-
-
-    browseButton.addEventListener(
-        "click",
-        () => {
-
-            fileInput.click();
-
-        }
-    );
-
-
-    fileInput.addEventListener(
-        "change",
-        () => {
-
-            handleFiles(
-                Array.from(fileInput.files)
-            );
-
-            fileInput.value = "";
-
-        }
-    );
-
-
-    /* =====================================================
-       DRAG AND DROP
-    ====================================================== */
-
-    dropZone.addEventListener(
-        "dragover",
-        (event) => {
-
-            event.preventDefault();
-
-            dropZone.classList.add(
-                "drag-active"
-            );
-
-        }
-    );
-
-
-    dropZone.addEventListener(
-        "dragleave",
-        () => {
-
-            dropZone.classList.remove(
-                "drag-active"
-            );
-
-        }
-    );
-
-
-    dropZone.addEventListener(
-        "drop",
-        (event) => {
-
-            event.preventDefault();
-
-            dropZone.classList.remove(
-                "drag-active"
-            );
-
-
-            const files =
-                Array.from(
-                    event.dataTransfer.files
-                );
-
-
-            handleFiles(files);
-
-        }
-    );
-
-
-    /* =====================================================
-       FILE HANDLING
-    ====================================================== */
-
-    function handleFiles(files) {
-
-        uploadMessage.className =
-            "upload-message";
-
-        uploadMessage.textContent =
-            "";
-
-
-        if (files.length === 0) {
-            return;
-        }
-
-
-        const invalidFiles = [];
-
-
-        files.forEach((file) => {
-
-            const extension =
-                getFileExtension(
-                    file.name
-                );
-
-
-            if (
-                !allowedExtensions.includes(
-                    extension
-                )
-            ) {
-
-                invalidFiles.push(
-                    file.name
-                );
-
-                return;
-
-            }
-
-
-            addDocumentToTable(
-                file,
-                extension
-            );
-
-        });
-
-
-        if (invalidFiles.length > 0) {
-
-            uploadMessage.textContent =
-                `Unsupported file type: ${invalidFiles.join(", ")}`;
-
-            uploadMessage.classList.add(
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        uploadMessage.textContent =
-            files.length === 1
-                ? "File added successfully."
-                : `${files.length} files added successfully.`;
-
-
-        uploadMessage.classList.add(
-            "success"
-        );
-
-    }
-
 
     function getFileExtension(fileName) {
-
-        const parts =
-            fileName.split(".");
-
-
-        if (parts.length < 2) {
-            return "";
-        }
-
-
-        return parts
-            .pop()
-            .toLowerCase();
-
+        const parts = fileName.split(".");
+        return parts.length > 1 ? parts.pop().toLowerCase() : "";
     }
-
 
     function formatFileSize(bytes) {
-
-        if (bytes === 0) {
-            return "0 KB";
-        }
-
-
-        if (bytes < 1024 * 1024) {
-
-            return `${(
-                bytes / 1024
-            ).toFixed(1)} KB`;
-
-        }
-
-
-        return `${(
-            bytes /
-            (1024 * 1024)
-        ).toFixed(1)} MB`;
-
+        const size = Number(bytes);
+        if (!Number.isFinite(size) || size <= 0) return "—";
+        return size < 1024 * 1024
+            ? `${(size / 1024).toFixed(1)} KB`
+            : `${(size / (1024 * 1024)).toFixed(1)} MB`;
     }
 
-
-    function addDocumentToTable(
-        file,
-        extension
-    ) {
-
-        const existingRows =
-            tableBody.querySelectorAll(
-                "tr"
-            ).length;
-
-
-        const documentId =
-            "DOC" +
-            String(
-                existingRows + 1
-            ).padStart(
-                3,
-                "0"
-            );
-
-
-        const today =
-            new Date()
-                .toISOString()
-                .split("T")[0];
-
-
-        const row =
-            document.createElement(
-                "tr"
-            );
-
-
-        row.innerHTML = `
-            <td>${documentId}</td>
-
-            <td>
-
-                <div class="document-name-cell">
-
-                    <span class="document-file-icon">
-                        ${extension.toUpperCase()}
-                    </span>
-
-                    <span>
-                        ${file.name}
-                    </span>
-
-                </div>
-
-            </td>
-
-            <td>
-                Unassigned
-            </td>
-
-            <td>
-                ${extension.toUpperCase()}
-            </td>
-
-            <td>
-                ${formatFileSize(file.size)}
-            </td>
-
-            <td>
-                ${today}
-            </td>
-
-            <td>
-                Suhail
-            </td>
-
-            <td>
-
-                <div class="document-actions">
-
-                    <button
-                        class="document-action download"
-                        type="button"
-                    >
-                        Download
-                    </button>
-
-                    <button
-                        class="document-action delete"
-                        type="button"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-            </td>
-        `;
-
-
-        tableBody.appendChild(
-            row
-        );
-
+    function formatDate(value) {
+        if (!value) return "—";
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? "—" : date.toISOString().split("T")[0];
     }
 
-});
+    function createCell(value) {
+        const cell = document.createElement("td");
+        cell.textContent = value == null || value === "" ? "—" : String(value);
+        return cell;
+    }
 
+    function renderDocumentRow(record) {
+        const row = document.createElement("tr");
+        row.dataset.documentId = record.id;
+        row.appendChild(createCell(`DOC-${String(record.id || "").slice(0, 8).toUpperCase()}`));
 
+        const nameCell = document.createElement("td");
+        const nameWrapper = document.createElement("div");
+        nameWrapper.className = "document-name-cell";
+        const icon = document.createElement("span");
+        icon.className = "document-file-icon";
+        icon.textContent = getFileExtension(record.file_name).toUpperCase() || "FILE";
+        const name = document.createElement("span");
+        name.textContent = record.file_name || "Unnamed document";
+        nameWrapper.append(icon, name);
+        nameCell.appendChild(nameWrapper);
+        row.appendChild(nameCell);
 
+        row.appendChild(createCell(record.project_name || record.project_code || "—"));
+        row.appendChild(createCell(getFileExtension(record.file_name).toUpperCase() || "FILE"));
+        row.appendChild(createCell(formatFileSize(record.size_bytes)));
+        row.appendChild(createCell(formatDate(record.created_at)));
+        row.appendChild(createCell(record.uploaded_by_name || "—"));
 
-/* =========================================================
-   DOCUMENT SEARCH AND DELETE
-========================================================= */
+        const actionsCell = document.createElement("td");
+        const actions = document.createElement("div");
+        actions.className = "document-actions";
+        // Seed records are metadata-only; actual uploads use project UUID as the first path segment.
+        const hasStoredFile = typeof record.storage_path === "string" &&
+            record.storage_path.startsWith(`${record.project_id}/`);
 
-document.addEventListener("DOMContentLoaded", () => {
+        const downloadButton = document.createElement("button");
+        downloadButton.className = "document-action download";
+        downloadButton.type = "button";
+        downloadButton.dataset.action = "download";
+        downloadButton.textContent = hasStoredFile ? "Download" : "No file stored";
+        downloadButton.disabled = !hasStoredFile;
+        downloadButton.title = hasStoredFile
+            ? "Download this file"
+            : "This older record contains metadata only; no file is stored.";
+        actions.appendChild(downloadButton);
 
-    const searchInput =
-        document.getElementById(
-            "document-search"
-        );
+        if (canManageDocuments) {
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "document-action delete";
+            deleteButton.type = "button";
+            deleteButton.dataset.action = "delete";
+            deleteButton.textContent = "Delete";
+            actions.appendChild(deleteButton);
+        }
 
-    const tableBody =
-        document.getElementById(
-            "document-table-body"
-        );
+        actionsCell.appendChild(actions);
+        row.appendChild(actionsCell);
+        return row;
+    }
 
-    const emptyMessage =
-        document.getElementById(
-            "document-empty-message"
-        );
+    function applyDocumentSearch() {
+        if (!searchInput) return;
+        const searchValue = searchInput.value.toLowerCase().trim();
+        const rows = Array.from(tableBody.querySelectorAll("tr"));
+        let visibleRows = 0;
+        rows.forEach((row) => {
+            const matches = row.textContent.toLowerCase().includes(searchValue);
+            row.style.display = matches ? "" : "none";
+            if (matches) visibleRows++;
+        });
+        if (emptyMessage) emptyMessage.style.display = visibleRows === 0 ? "block" : "none";
+    }
 
+    async function loadProjects() {
+        if (!projectSelect) return;
+        const payload = await cmsApiRequest("/projects");
+        const projects =
+            (Array.isArray(payload.projects) && payload.projects) ||
+            (Array.isArray(payload.data?.projects) && payload.data.projects) ||
+            (Array.isArray(payload.data) && payload.data) || [];
+        projectSelect.replaceChildren();
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = projects.length ? "Choose a project..." : "No projects available";
+        projectSelect.appendChild(placeholder);
+        projects.forEach((project) => {
+            if (!project.id) return;
+            const option = document.createElement("option");
+            option.value = project.id;
+            option.textContent = `${project.project_code || "Project"} — ${project.name || "Unnamed project"}`;
+            projectSelect.appendChild(option);
+        });
+    }
 
-    if (!searchInput || !tableBody) {
+    async function loadDocuments() {
+        tableBody.replaceChildren();
+        const payload = await cmsApiRequest("/documents");
+        const records = Array.isArray(payload.documents) ? payload.documents : [];
+        records.forEach((record) => tableBody.appendChild(renderDocumentRow(record)));
+        applyDocumentSearch();
+    }
+
+    async function uploadFile(file) {
+        const extension = getFileExtension(file.name);
+        if (!allowedExtensions.includes(extension)) throw new Error(`${file.name}: unsupported file type.`);
+        if (file.size <= 0) throw new Error(`${file.name}: the file is empty.`);
+        if (file.size > 10 * 1024 * 1024) throw new Error(`${file.name}: maximum file size is 10 MB.`);
+        if (!projectSelect?.value) throw new Error("Choose a project before uploading files.");
+
+        const query = new URLSearchParams({
+            project_id: projectSelect.value,
+            file_name: file.name,
+            visibility: visibilitySelect?.value || "internal",
+            description: descriptionInput?.value.trim() || ""
+        });
+        const payload = await cmsApiRequest(`/documents/upload?${query.toString()}`, {
+            method: "POST",
+            headers: { "Content-Type": file.type || mimeTypes[extension] },
+            body: file
+        });
+        if (payload.document) {
+            const existingRow = tableBody.querySelector(`[data-document-id="${payload.document.id}"]`);
+            if (!existingRow) tableBody.prepend(renderDocumentRow(payload.document));
+        }
+    }
+
+    async function handleFiles(files) {
+        if (!files.length) return;
+        if (!getCmsAccessToken()) {
+            setUploadMessage("Your session has expired. Please sign in again.", "error");
+            return;
+        }
+        if (!canManageDocuments) {
+            setUploadMessage("Only administrators and assigned developers can upload documents.", "error");
+            return;
+        }
+
+        setUploadMessage("Uploading file(s) to secure storage...");
+        browseButton.disabled = true;
+        fileInput.disabled = true;
+        const failures = [];
+        let succeeded = 0;
+
+        try {
+            for (const file of files) {
+                try {
+                    await uploadFile(file);
+                    succeeded++;
+                } catch (error) {
+                    failures.push(error.message || `${file.name}: upload failed.`);
+                }
+            }
+            if (succeeded > 0) {
+                setUploadMessage(succeeded === 1
+                    ? "File uploaded to secure storage successfully."
+                    : `${succeeded} files uploaded to secure storage successfully.`, "success");
+            }
+            if (failures.length > 0) {
+                setUploadMessage([
+                    succeeded > 0 ? `${succeeded} upload(s) succeeded.` : "",
+                    ...failures
+                ].filter(Boolean).join(" "), "error");
+            }
+            await loadDocuments();
+        } catch (error) {
+            setUploadMessage(error.message || "Unable to upload the selected file(s).", "error");
+        } finally {
+            browseButton.disabled = false;
+            fileInput.disabled = false;
+        }
+    }
+
+    browseButton.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", () => {
+        handleFiles(Array.from(fileInput.files || []));
+        fileInput.value = "";
+    });
+    dropZone.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        dropZone.classList.add("drag-active");
+    });
+    dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-active"));
+    dropZone.addEventListener("drop", (event) => {
+        event.preventDefault();
+        dropZone.classList.remove("drag-active");
+        handleFiles(Array.from(event.dataTransfer?.files || []));
+    });
+    if (searchInput) searchInput.addEventListener("input", applyDocumentSearch);
+
+    tableBody.addEventListener("click", async (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+        const row = button.closest("tr");
+        const documentId = row?.dataset.documentId;
+        if (!documentId) return;
+
+        if (button.dataset.action === "download") {
+            button.disabled = true;
+            try {
+                const payload = await cmsApiRequest(`/documents/${encodeURIComponent(documentId)}/download`);
+                if (!payload.download_url) throw new Error("The download link was not returned.");
+                const link = document.createElement("a");
+                link.href = payload.download_url;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.click();
+            } catch (error) {
+                setUploadMessage(error.message || "Unable to download this document.", "error");
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        if (button.dataset.action === "delete") {
+            if (!canManageDocuments) {
+                setUploadMessage("You do not have permission to delete documents.", "error");
+                return;
+            }
+            if (!window.confirm("Delete this document and its stored file?")) return;
+            button.disabled = true;
+            try {
+                await cmsApiRequest(`/documents/${encodeURIComponent(documentId)}`, { method: "DELETE" });
+                row.remove();
+                applyDocumentSearch();
+                setUploadMessage("Document deleted successfully.", "success");
+            } catch (error) {
+                setUploadMessage(error.message || "Unable to delete this document.", "error");
+                button.disabled = false;
+            }
+        }
+    });
+
+    if (!getCmsAccessToken()) {
+        if (uploadPanel) uploadPanel.hidden = true;
+        setUploadMessage("Please sign in to view and manage documents.", "error");
+        window.setTimeout(() => { window.location.href = "../index.html"; }, 1200);
         return;
     }
 
+    if (!canManageDocuments && uploadPanel) uploadPanel.hidden = true;
 
-    function filterDocuments() {
-
-        const searchValue =
-            searchInput.value
-                .toLowerCase()
-                .trim();
-
-
-        const rows =
-            tableBody.querySelectorAll(
-                "tr"
-            );
-
-
-        let visibleRows = 0;
-
-
-        rows.forEach((row) => {
-
-            const rowText =
-                row.textContent
-                    .toLowerCase();
-
-
-            if (
-                rowText.includes(
-                    searchValue
-                )
-            ) {
-
-                row.style.display = "";
-
-                visibleRows++;
-
-            } else {
-
-                row.style.display =
-                    "none";
-
+    Promise.all([loadProjects(), loadDocuments()])
+        .then(() => {
+            if (!canManageDocuments) {
+                setUploadMessage("You have read-only access to documents visible to your account.");
             }
-
+        })
+        .catch((error) => {
+            setUploadMessage(error.message || "Unable to load documents. Please sign in again.", "error");
         });
-
-
-        if (emptyMessage) {
-
-            emptyMessage.style.display =
-                visibleRows === 0
-                    ? "block"
-                    : "none";
-
-        }
-
-    }
-
-
-    searchInput.addEventListener(
-        "input",
-        filterDocuments
-    );
-
-
-    tableBody.addEventListener(
-        "click",
-        (event) => {
-
-            const deleteButton =
-                event.target.closest(
-                    ".document-action.delete"
-                );
-
-
-            if (!deleteButton) {
-                return;
-            }
-
-
-            const row =
-                deleteButton.closest(
-                    "tr"
-                );
-
-
-            if (row) {
-                row.remove();
-            }
-
-
-            filterDocuments();
-
-        }
-    );
-
 });
-
-
 
 
 /* =========================================================

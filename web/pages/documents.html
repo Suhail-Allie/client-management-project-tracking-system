@@ -238,9 +238,36 @@
 
                     </div>
 
+                    <div
+                        id="document-upload-controls"
+                        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:18px 0;"
+                    >
+                        <label style="display:flex;flex-direction:column;gap:6px;font-weight:600;">
+                            Project
+                            <select id="document-project-select" style="width:100%;padding:11px 12px;border:1px solid #d8dce4;border-radius:8px;background:#fff;">
+                                <option value="">Loading projects...</option>
+                            </select>
+                        </label>
+
+                        <label style="display:flex;flex-direction:column;gap:6px;font-weight:600;">
+                            Visibility
+                            <select id="document-visibility-select" style="width:100%;padding:11px 12px;border:1px solid #d8dce4;border-radius:8px;background:#fff;">
+                                <option value="internal">Internal only</option>
+                                <option value="client">Visible to client</option>
+                            </select>
+                        </label>
+
+                        <label style="display:flex;flex-direction:column;gap:6px;font-weight:600;">
+                            Description (optional)
+                            <input id="document-description-input" type="text" maxlength="2000" placeholder="What is this document for?" style="width:100%;padding:11px 12px;border:1px solid #d8dce4;border-radius:8px;box-sizing:border-box;">
+                        </label>
+                    </div>
+
                     <p
                         class="upload-message"
                         id="upload-message"
+                        role="status"
+                        aria-live="polite"
                     ></p>
 
                 </section>
@@ -293,226 +320,9 @@
                             </thead>
 
                             <tbody id="document-table-body">
-
                                 <tr>
-
-                                    <td>DOC001</td>
-
-                                    <td>
-                                        <div class="document-name-cell">
-                                            <span class="document-file-icon">
-                                                PDF
-                                            </span>
-
-                                            <span>
-                                                Project_Requirements.pdf
-                                            </span>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        E-commerce Platform
-                                    </td>
-
-                                    <td>PDF</td>
-
-                                    <td>2.4 MB</td>
-
-                                    <td>2026-06-18</td>
-
-                                    <td>John Anderson</td>
-
-                                    <td>
-                                        <div class="document-actions">
-
-                                            <button
-                                                class="document-action download"
-                                                type="button"
-                                            >
-                                                Download
-                                            </button>
-
-                                            <button
-                                                class="document-action delete"
-                                                type="button"
-                                            >
-                                                Delete
-                                            </button>
-
-                                        </div>
-                                    </td>
-
+                                    <td colspan="8">Loading documents...</td>
                                 </tr>
-
-
-                                <tr>
-
-                                    <td>DOC002</td>
-
-                                    <td>
-                                        <div class="document-name-cell">
-
-                                            <span class="document-file-icon">
-                                                SQL
-                                            </span>
-
-                                            <span>
-                                                Database_Schema.sql
-                                            </span>
-
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        CRM System
-                                    </td>
-
-                                    <td>SQL</td>
-
-                                    <td>15 KB</td>
-
-                                    <td>2026-07-12</td>
-
-                                    <td>Mike Developer</td>
-
-                                    <td>
-
-                                        <div class="document-actions">
-
-                                            <button
-                                                class="document-action download"
-                                                type="button"
-                                            >
-                                                Download
-                                            </button>
-
-                                            <button
-                                                class="document-action delete"
-                                                type="button"
-                                            >
-                                                Delete
-                                            </button>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <tr>
-
-                                    <td>DOC003</td>
-
-                                    <td>
-
-                                        <div class="document-name-cell">
-
-                                            <span class="document-file-icon">
-                                                ZIP
-                                            </span>
-
-                                            <span>
-                                                UI_Mockups.zip
-                                            </span>
-
-                                        </div>
-
-                                    </td>
-
-                                    <td>
-                                        Mobile App Development
-                                    </td>
-
-                                    <td>ZIP</td>
-
-                                    <td>8.7 MB</td>
-
-                                    <td>2026-07-20</td>
-
-                                    <td>Sarah Developer</td>
-
-                                    <td>
-
-                                        <div class="document-actions">
-
-                                            <button
-                                                class="document-action download"
-                                                type="button"
-                                            >
-                                                Download
-                                            </button>
-
-                                            <button
-                                                class="document-action delete"
-                                                type="button"
-                                            >
-                                                Delete
-                                            </button>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <tr>
-
-                                    <td>DOC004</td>
-
-                                    <td>
-
-                                        <div class="document-name-cell">
-
-                                            <span class="document-file-icon">
-                                                DOCX
-                                            </span>
-
-                                            <span>
-                                                Meeting_Notes.docx
-                                            </span>
-
-                                        </div>
-
-                                    </td>
-
-                                    <td>
-                                        Website Redesign
-                                    </td>
-
-                                    <td>DOCX</td>
-
-                                    <td>44 KB</td>
-
-                                    <td>2026-08-05</td>
-
-                                    <td>Emily Developer</td>
-
-                                    <td>
-
-                                        <div class="document-actions">
-
-                                            <button
-                                                class="document-action download"
-                                                type="button"
-                                            >
-                                                Download
-                                            </button>
-
-                                            <button
-                                                class="document-action delete"
-                                                type="button"
-                                            >
-                                                Delete
-                                            </button>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
                             </tbody>
 
                         </table>

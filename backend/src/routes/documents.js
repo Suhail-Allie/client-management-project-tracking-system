@@ -1,5 +1,8 @@
 const express = require("express");
+const crypto = require("crypto");
+const path = require("path");
 const pool = require("../config/database");
+const supabase = require("../config/supabase");
 
 const router = express.Router();
 
@@ -7,6 +10,48 @@ const UUID_PATTERN =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const VISIBILITIES = new Set(["internal", "client"]);
+
+const DOCUMENTS_BUCKET =
+    process.env.SUPABASE_DOCUMENTS_BUCKET || "project-documents";
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+const ALLOWED_EXTENSIONS = new Set([
+    "pdf",
+    "doc",
+    "docx",
+    "xls",
+    "xlsx",
+    "zip",
+    "png",
+    "jpg",
+    "jpeg"
+]);
+
+const ALLOWED_MIME_TYPES = new Set([
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/zip",
+    "application/x-zip-compressed",
+    "image/png",
+    "image/jpeg",
+    "application/octet-stream"
+]);
+
+const MIME_BY_EXTENSION = {
+    pdf: "application/pdf",
+    doc: "application/msword",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    xls: "application/vnd.ms-excel",
+    xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    zip: "application/zip",
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg"
+};
 
 const DOCUMENT_SELECT = `
     SELECT
@@ -84,6 +129,59 @@ function requireDocumentManager(req, res, next) {
     }
 
     next();
+}
+
+
+function getFileExtension(fileName) {
+    return path.extname(fileName).replace(".", "").toLowerCase();
+}
+
+function sanitiseFileName(fileName) {
+    return fileName
+        .normalize("NFKC")
+        .replace(/[^a-zA-Z0-9._-]/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^\.+/, "")
+        .slice(0, 180);
+}
+
+function validateUpload(fileName, mimeType, sizeBytes) {
+    const extension = getFileExtension(fileName);
+
+    if (!extension || !ALLOWED_EXTENSIONS.has(extension)) {
+        return "Unsupported file type.";
+    }
+
+    if (sizeBytes <= 0) {
+        return "The uploaded file is empty.";
+    }
+
+    if (sizeBytes > MAX_FILE_SIZE) {
+        return "File size must not exceed 10 MB.";
+    }
+
+    const normalisedMime = (mimeType || "").split(";")[0].trim().toLowerCase();
+
+    if (
+        normalisedMime &&
+        !ALLOWED_MIME_TYPES.has(normalisedMime)
+    ) {
+        return "Unsupported MIME type.";
+    }
+
+    return null;
+}
+
+async function createDownloadUrl(storagePath) {
+    const { data, error } = await supabase.storage
+        .from(DOCUMENTS_BUCKET)
+        .createSignedUrl(storagePath, 60 * 60);
+
+    if (error) {
+        throw error;
+    }
+
+    return data.signedUrl;
 }
 
 function validateDocumentPayload(body, partial = false) {
@@ -176,6 +274,235 @@ async function getDocumentById(id, profile) {
 }
 
 // --------------------------------------------------
+// UPLOAD ACTUAL FILE
+// POST /api/v1/documents/upload
+//
+// The file is sent as the raw request body. Metadata is supplied
+// through query parameters. This avoids adding a multipart dependency.
+// --------------------------------------------------
+
+router.post(
+    "/upload",
+    requireDocumentManager,
+    express.raw({
+        type: "*/*",
+        limit: MAX_FILE_SIZE
+    }),
+    async (req, res) => {
+        let storagePath = null;
+
+        try {
+            const projectId = req.query.project_id;
+            const fileName =
+                typeof req.query.file_name === "string"
+                    ? req.query.file_name.trim()
+                    : "";
+            const description =
+                typeof req.query.description === "string"
+                    ? req.query.description.trim() || null
+                    : null;
+            const visibility =
+                typeof req.query.visibility === "string"
+                    ? req.query.visibility
+                    : "internal";
+
+            if (!isUuid(projectId)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "A valid project_id is required."
+                });
+            }
+
+            if (!fileName || fileName.length > 255) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "A valid file_name between 1 and 255 characters is required."
+                });
+            }
+
+            if (!VISIBILITIES.has(visibility)) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "visibility must be either 'internal' or 'client'."
+                });
+            }
+
+            if (
+                description !== null &&
+                description.length > 2000
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "description must not exceed 2000 characters."
+                });
+            }
+
+            const project = await projectExists(projectId);
+
+            if (!project) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Project not found."
+                });
+            }
+
+            if (
+                req.profile.role === "developer" &&
+                project.assigned_developer_id !== req.profile.id
+            ) {
+                return res.status(403).json({
+                    success: false,
+                    message:
+                        "You can only upload documents for your assigned projects."
+                });
+            }
+
+            if (!Buffer.isBuffer(req.body)) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "The request must contain the file as its binary body."
+                });
+            }
+
+            const mimeType =
+                typeof req.headers["content-type"] === "string"
+                    ? req.headers["content-type"]
+                    : "";
+
+            const uploadError = validateUpload(
+                fileName,
+                mimeType,
+                req.body.length
+            );
+
+            if (uploadError) {
+                return res.status(400).json({
+                    success: false,
+                    message: uploadError
+                });
+            }
+
+            const extension = getFileExtension(fileName);
+            const safeFileName =
+                sanitiseFileName(fileName) ||
+                `document.${extension}`;
+
+            const effectiveMimeType =
+                (mimeType || "").split(";")[0].trim().toLowerCase() ||
+                MIME_BY_EXTENSION[extension] ||
+                "application/octet-stream";
+
+            storagePath =
+                `${projectId}/${crypto.randomUUID()}-${safeFileName}`;
+
+            const { error: uploadErrorFromStorage } =
+                await supabase.storage
+                    .from(DOCUMENTS_BUCKET)
+                    .upload(storagePath, req.body, {
+                        contentType: effectiveMimeType,
+                        upsert: false
+                    });
+
+            if (uploadErrorFromStorage) {
+                console.error(
+                    "Supabase Storage upload failed:",
+                    uploadErrorFromStorage.message
+                );
+
+                return res.status(502).json({
+                    success: false,
+                    message: "Unable to upload the document file."
+                });
+            }
+
+            try {
+                const result = await pool.query(
+                    `INSERT INTO public.documents
+                        (
+                            project_id,
+                            file_name,
+                            storage_path,
+                            mime_type,
+                            size_bytes,
+                            description,
+                            visibility,
+                            uploaded_by
+                        )
+                     VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+                     RETURNING id`,
+                    [
+                        projectId,
+                        fileName,
+                        storagePath,
+                        effectiveMimeType,
+                        req.body.length,
+                        description,
+                        visibility,
+                        req.profile.id
+                    ]
+                );
+
+                const document = await getDocumentById(
+                    result.rows[0].id,
+                    req.profile
+                );
+
+                let downloadUrl = null;
+
+                try {
+                    downloadUrl = await createDownloadUrl(
+                        storagePath
+                    );
+                } catch (urlError) {
+                    console.warn(
+                        "Signed download URL creation failed:",
+                        urlError.message
+                    );
+                }
+
+                return res.status(201).json({
+                    success: true,
+                    message:
+                        "Document uploaded successfully.",
+                    document,
+                    download_url: downloadUrl
+                });
+            } catch (databaseError) {
+                // Prevent an orphaned Storage object if the metadata
+                // insert fails.
+                const { error: cleanupError } = await supabase.storage
+                    .from(DOCUMENTS_BUCKET)
+                    .remove([storagePath]);
+
+                if (cleanupError) {
+                    console.error(
+                        "Storage cleanup failed:",
+                        cleanupError.message
+                    );
+                }
+
+                throw databaseError;
+            }
+        } catch (error) {
+            console.error(
+                "Upload document error:",
+                error.message
+            );
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    "Unable to complete the document upload."
+            });
+        }
+    }
+);
+
+// --------------------------------------------------
 // GET ALL DOCUMENTS
 // --------------------------------------------------
 
@@ -201,6 +528,57 @@ router.get("/", async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Unable to retrieve documents."
+        });
+    }
+});
+
+// --------------------------------------------------
+// GET SIGNED DOWNLOAD URL
+// GET /api/v1/documents/:id/download
+// --------------------------------------------------
+
+router.get("/:id/download", async (req, res) => {
+    try {
+        if (!isUuid(req.params.id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid document ID."
+            });
+        }
+
+        const document = await getDocumentById(
+            req.params.id,
+            req.profile
+        );
+
+        if (!document) {
+            return res.status(404).json({
+                success: false,
+                message: "Document not found."
+            });
+        }
+
+        const downloadUrl = await createDownloadUrl(
+            document.storage_path
+        );
+
+        return res.json({
+            success: true,
+            document_id: document.id,
+            file_name: document.file_name,
+            download_url: downloadUrl,
+            expires_in: 3600
+        });
+    } catch (error) {
+        console.error(
+            "Create document download URL error:",
+            error.message
+        );
+
+        return res.status(500).json({
+            success: false,
+            message:
+                "Unable to create a secure download link."
         });
     }
 });
@@ -470,6 +848,22 @@ router.delete("/:id", requireDocumentManager, async (req, res) => {
             });
         }
 
+        // Remove the binary file first. Legacy metadata-only rows may
+        // point to paths that do not exist; in that case the DB record
+        // can still be removed.
+        if (existing.storage_path) {
+            const { error: storageError } = await supabase.storage
+                .from(DOCUMENTS_BUCKET)
+                .remove([existing.storage_path]);
+
+            if (storageError) {
+                console.warn(
+                    "Document storage cleanup warning:",
+                    storageError.message
+                );
+            }
+        }
+
         await pool.query(
             `DELETE FROM public.documents
              WHERE id = $1`,
@@ -488,6 +882,18 @@ router.delete("/:id", requireDocumentManager, async (req, res) => {
             message: "Unable to delete the document."
         });
     }
+});
+
+// Handle raw-upload size errors as JSON rather than Express' default HTML response.
+router.use((error, req, res, next) => {
+    if (error?.type === "entity.too.large") {
+        return res.status(413).json({
+            success: false,
+            message: "File size must not exceed 10 MB."
+        });
+    }
+
+    return next(error);
 });
 
 module.exports = function createDocumentsRouter(requireAuth) {
