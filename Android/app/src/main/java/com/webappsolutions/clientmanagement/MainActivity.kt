@@ -1,47 +1,57 @@
 package com.webappsolutions.clientmanagement
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.navigation.compose.rememberNavController
+import com.webappsolutions.clientmanagement.data.network.supabaseClient
+import com.webappsolutions.clientmanagement.navigation.AppNavGraph
 import com.webappsolutions.clientmanagement.ui.theme.ClientManagementTheme
+import io.github.jan.supabase.auth.handleDeeplinks
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        handleAuthIntent(intent)
+
         setContent {
             ClientManagementTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                Surface(
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+
+                    AppNavGraph(
+                        navController = navController
                     )
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleAuthIntent(intent)
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ClientManagementTheme {
-        Greeting("Android")
+    private fun handleAuthIntent(authIntent: Intent) {
+        supabaseClient.handleDeeplinks(
+            intent = authIntent,
+            onSessionSuccess = { session ->
+                Log.i(
+                    "GoogleSSO",
+                    "Authentication successful for ${
+                        session.user?.email ?: "user"
+                    }"
+                )
+            }
+        )
     }
 }
